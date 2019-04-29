@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Redirect } from "react-router-dom";
 
-export default class Login extends Component {
+export default class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = { username: "", password: "" };
@@ -13,7 +13,7 @@ export default class Login extends Component {
     let username = this.state.username;
     let password = this.state.password;
     // authenticate
-    fetch("http://localhost:3000/api/v1/login", {
+    fetch("http://localhost:3000/api/v1/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Game from "./Game";
 
 export default class Home extends Component {
   constructor(props) {
@@ -6,6 +7,10 @@ export default class Home extends Component {
     this.state = {};
   }
   render() {
-    return <div>insert play area here?</div>;
+    return (
+      <div>
+        <Game />
+      </div>
+    );
   }
 }
