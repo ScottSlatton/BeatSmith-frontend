@@ -27,6 +27,7 @@ export default class Craft extends Component {
         this.setState({ multiplier: 1 });
     }
   };
+
   canAfford = () => {
     if (this.state.multiplier === "max") {
       if (Math.floor(this.props.ore / this.state.cost) > 0) {
@@ -40,6 +41,7 @@ export default class Craft extends Component {
       return false;
     }
   };
+
   buyMultiCraft = () => {
     this.props.buyCraft(this.state.cost, this.state.multiplier);
   };
@@ -50,7 +52,9 @@ export default class Craft extends Component {
         <div>
           <button onClick={() => this.buyMultiCraft()}>Craft Weapon</button>
           <button onClick={() => this.switchMultiplier(this.state.multiplier)}>
-            x{this.state.multiplier}
+            {this.state.multiplier === "max"
+              ? "Max"
+              : ` x${this.state.multiplier}`}
           </button>
         </div>
       );
@@ -60,7 +64,9 @@ export default class Craft extends Component {
           <button>Craft Weapon</button>
 
           <button onClick={() => this.switchMultiplier(this.state.multiplier)}>
-            x{this.state.multiplier}
+            {this.state.multiplier === "max"
+              ? "Max"
+              : ` x${this.state.multiplier}`}
           </button>
           <p>Not enough ore!</p>
         </div>

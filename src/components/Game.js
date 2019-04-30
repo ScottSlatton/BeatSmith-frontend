@@ -18,7 +18,6 @@ export default class Game extends Component {
   handleClick = () => {
     this.setState({
       clock: 30,
-      //   ore: localStorage.getItem("ore"),
       gameOn: true
     });
   };
@@ -33,7 +32,6 @@ export default class Game extends Component {
   buyCraft = (cost, multiplier) => {
     if (multiplier === "max") {
       let max = Math.floor(this.state.ore / cost);
-      console.log(max);
       this.setState({
         ore: this.state.ore - cost * max,
         clickStrength: this.state.clickStrength + 1 * max

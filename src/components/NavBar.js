@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Nav from "react-bootstrap/Nav";
+import { Link } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Button from "react-bootstrap/Button";
@@ -11,17 +12,15 @@ export default class NavBar extends Component {
   render() {
     return (
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="/home">BeatSmith</Navbar.Brand>
+        <Navbar.Brand href="/">BeatSmith</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="/home">Home</Nav.Link>
-
             <NavDropdown title="Account" id="basic-nav-dropdown">
               {this.props.state.user ? (
                 <NavDropdown.Item
                   onClick={() => window.location.reload}
-                  href="/home"
+                  href="/"
                 >
                   Logout
                 </NavDropdown.Item>

@@ -53,7 +53,7 @@ export default class App extends React.Component {
               />
             )}
           />
-          <Route path="/home" component={Home} />
+          <Route exact path="/" component={Home} />
         </React.Fragment>
       </Router>
     );
