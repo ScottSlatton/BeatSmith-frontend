@@ -30,11 +30,20 @@ export default class Game extends Component {
     this.setState({ gameOn: false });
   };
 
-  buyCraft = (cost, number) => {
-    this.setState({
-      ore: this.state.ore - cost,
-      clickStrength: this.state.clickStrength + number
-    });
+  buyCraft = (cost, multiplier) => {
+    if (multiplier === "max") {
+      let max = Math.floor(this.state.ore / cost);
+      console.log(max);
+      this.setState({
+        ore: this.state.ore - cost * max,
+        clickStrength: this.state.clickStrength + 1 * max
+      });
+    } else {
+      this.setState({
+        ore: this.state.ore - cost * multiplier,
+        clickStrength: this.state.clickStrength + 1 * multiplier
+      });
+    }
   };
 
   render() {

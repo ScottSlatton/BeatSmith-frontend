@@ -10,26 +10,42 @@ export default class Craft extends Component {
     switch (mult) {
       case 1:
         this.setState({ multiplier: 3 });
+
         break;
       case 3:
         this.setState({ multiplier: 10 });
         break;
       case 10:
-        this.setState({ multiplier: 1 });
+        this.setState({ multiplier: "max" });
+        break;
+      case "max":
+        this.setState({
+          multiplier: 1
+        });
         break;
       default:
         this.setState({ multiplier: 1 });
     }
   };
+  canAfford = () => {
+    if (this.state.multiplier === "max") {
+      if (Math.floor(this.props.ore / this.state.cost) > 0) {
+        return true;
+      }
+    }
+
+    if (this.props.ore >= this.state.cost * this.state.multiplier) {
+      return true;
+    } else {
+      return false;
+    }
+  };
   buyMultiCraft = () => {
-    let numCanBuy = Math.floor(
-      this.props.ore / (this.state.cost * this.state.multiplier)
-    );
-    this.props.buyCraft(this.state.cost, numCanBuy);
+    this.props.buyCraft(this.state.cost, this.state.multiplier);
   };
 
   render() {
-    if (this.props.ore >= this.state.cost * this.state.multiplier) {
+    if (this.canAfford()) {
       return (
         <div>
           <button onClick={() => this.buyMultiCraft()}>Craft Weapon</button>
