@@ -1,10 +1,16 @@
 import React, { Component } from "react";
+import Button from "react-bootstrap/Button";
 
 export default class Pickaxe extends Component {
   constructor(props) {
     super(props);
-    this.state = { cost: 10, multiplier: 1 };
+    this.test = this.props.clickStrength;
+    this.state = { cost: this.test * 10, multiplier: 1 };
   }
+
+  // setCost = () => {
+  //   this.setState
+  // }
 
   // componentWillUnmount() {
   //   // authenticate
@@ -60,31 +66,37 @@ export default class Pickaxe extends Component {
   };
 
   polyUpgradeAxe = () => {
-    this.props.upgradeAxe(this.state.cost, this.state.multiplier);
+    this.setState({ cost: (this.test += 1) * 10 });
+    let newCost = (this.test += 1 * 10);
+    console.log(this.state.cost);
+    this.props.upgradeAxe(newCost, this.state.multiplier);
   };
 
   render() {
     if (this.canAfford()) {
       return (
         <div>
-          <button onClick={() => this.polyUpgradeAxe()}>Upgrade Pickaxe</button>
-          <button onClick={() => this.switchMultiplier(this.state.multiplier)}>
+          <Button onClick={() => this.polyUpgradeAxe()}>Upgrade Pickaxe</Button>
+          <Button
+            variant="outline-primary"
+            onClick={() => this.switchMultiplier(this.state.multiplier)}
+          >
             {this.state.multiplier === "max"
               ? "Max"
               : ` x${this.state.multiplier}`}
-          </button>
+          </Button>
         </div>
       );
     } else {
       return (
         <div>
-          <button>Upgrade Pickaxe</button>
+          <Button>Upgrade Pickaxe</Button>
 
-          <button onClick={() => this.switchMultiplier(this.state.multiplier)}>
+          <Button onClick={() => this.switchMultiplier(this.state.multiplier)}>
             {this.state.multiplier === "max"
               ? "Max"
               : ` x${this.state.multiplier}`}
-          </button>
+          </Button>
           <p>Not enough ore!</p>
         </div>
       );

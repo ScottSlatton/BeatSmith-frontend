@@ -3,6 +3,9 @@ import Event from "./Event";
 import Boss from "./Boss";
 import Timer from "./Timer";
 import Pickaxe from "./Pickaxe";
+import ProgressBar from "react-bootstrap/ProgressBar";
+
+import Button from "react-bootstrap/Button";
 
 export default class Game extends Component {
   constructor(props) {
@@ -11,9 +14,27 @@ export default class Game extends Component {
       clock: 30,
       ore: 0,
       clickStrength: 1,
-      gameOn: false
+      gameOn: false,
+      boss: {
+        health: 100,
+        name: "Procrasterminator",
+        experience: 100,
+        defeated: false
+      }
     };
   }
+  bossDefeated = () => {
+    console.log(this.state.boss.experience);
+    this.setState({
+      boss: { defeated: true }
+    });
+
+    this.props.updateExperience(this.state.boss.experience);
+  };
+
+  endRound = () => {
+    this.setState({ gameOn: false });
+  };
 
   handleClick = () => {
     this.setState({
@@ -22,11 +43,29 @@ export default class Game extends Component {
     });
   };
   oreClick = () => {
-    this.setState({ ore: this.state.ore + this.state.clickStrength });
+    this.setState({
+      ore: this.state.ore + this.state.clickStrength
+    });
   };
 
-  endRound = () => {
-    this.setState({ gameOn: false });
+  setBoss = (name, health) => {
+    this.setState({ boss: { name, health } });
+  };
+  getBoss = userLevel => {
+    //fetch a boss from backend based on user level
+  };
+  takeDamage = () => {
+    console.log("boss has taken damage");
+    if (this.state.boss.health >= this.state.clickStrength) {
+      this.setState({
+        boss: {
+          ...this.state.boss,
+          health: this.state.boss.health - this.state.clickStrength
+        }
+      });
+    } else {
+      this.bossDefeated();
+    }
   };
 
   upgradeAxe = (cost, multiplier) => {
@@ -46,28 +85,40 @@ export default class Game extends Component {
 
   render() {
     if (!this.state.gameOn) {
+      //game is not playing
       return (
         <div>
           <h2>Ore Gathered: {this.state.ore}</h2>
-          <h6> Weapons Made: {this.state.clickStrength} </h6>
-          <button onClick={() => this.handleClick()}> Play </button>
-
+          <h6> Pickaxe Strength: {this.state.clickStrength} </h6>
+          <Button variant="outline-danger" onClick={() => this.handleClick()}>
+            {" "}
+            Play{" "}
+          </Button>
           <Pickaxe
             ore={this.state.ore}
             upgradeAxe={this.upgradeAxe}
             state={this.props.state}
+            clickStrength={this.state.clickStrength}
           />
-          <Boss />
         </div>
       );
     } else {
+      //game is playing
       return (
         <div>
           <Timer endRound={this.endRound} ore={this.state.ore} />
           <h2>Ore Gathered: {this.state.ore}</h2>
-          <h6> Pickaxe Strength:{this.state.clickStrength} </h6>
-          <button onClick={() => this.oreClick()}>Mine Ore!</button>
-          <Boss />
+          <h6>
+            {" "}
+            Pickaxe Strength:
+            {this.state.clickStrength}{" "}
+          </h6>
+          <Button variant="outline-danger" onClick={() => this.oreClick()}>
+            Mine Ore!
+          </Button>
+          {!this.state.boss.defeated ? (
+            <Boss boss={this.state.boss} takeDamage={() => this.takeDamage()} />
+          ) : null}
         </div>
       );
     }

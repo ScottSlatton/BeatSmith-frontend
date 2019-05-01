@@ -9,13 +9,20 @@ import SignUp from "./components/SignUp";
 export default class App extends React.Component {
   constructor() {
     super();
-    this.state = { isLoggedIn: false };
+    this.state = { isLoggedIn: false, user: { experience: 0, level: 1 } };
   }
   setUser = user => {
     this.setState({ user });
   };
   setLoggedIn = () => {
     this.setState({ isLoggedIn: true });
+  };
+  updateExperience = bossExperience => {
+    this.setState({
+      user: {
+        experience: this.state.user.experience + bossExperience
+      }
+    });
   };
   render() {
     return (
@@ -62,6 +69,7 @@ export default class App extends React.Component {
                 state={this.state}
                 setUser={this.setUser}
                 setLoggedIn={this.setLoggedIn}
+                updateExperience={this.updateExperience}
               />
             )}
           />

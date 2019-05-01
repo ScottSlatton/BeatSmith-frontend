@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Game from "./Game";
+import "../App.css";
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 export default class Home extends Component {
   constructor(props) {
@@ -9,7 +11,17 @@ export default class Home extends Component {
   render() {
     return (
       <div>
-        <Game state={this.props.state} />
+        <ProgressBar
+          animated
+          now={this.props.state.user.experience}
+          label={`Experience:${this.props.state.user.experience} `}
+        />
+        <div className="App-header">
+          <Game
+            state={this.props.state}
+            updateExperience={this.props.updateExperience}
+          />
+        </div>
       </div>
     );
   }
