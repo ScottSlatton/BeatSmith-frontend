@@ -31,11 +31,12 @@
     transform: rotate(360deg);
   }
 }
-.type1 {
+.boss {
   width: 100px;
   height: 100px;
-  background: grey;
-  border: 5px solid cadetblue;
+  background: red;
+  border: 2px solid black;
+  border-radius: 50%;
 }
 .type2 {
   width: 50px;
@@ -50,5 +51,4 @@
   border: 5px solid blue;
 }
 .circleBase {
-  border-radius: 50%;
 }

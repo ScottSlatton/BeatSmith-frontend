@@ -29,7 +29,7 @@ export default class Timer extends Component {
   render() {
     return (
       <div>
-        <h2>Time Left: {this.state.clock}</h2>
+        <h2>Hero Arrives In: {this.state.clock}</h2>
       </div>
     );
   }

@@ -53,7 +53,18 @@ export default class App extends React.Component {
               />
             )}
           />
-          <Route exact path="/" component={Home} />
+          <Route
+            exact
+            path="/"
+            render={props => (
+              <Home
+                {...props}
+                state={this.state}
+                setUser={this.setUser}
+                setLoggedIn={this.setLoggedIn}
+              />
+            )}
+          />
         </React.Fragment>
       </Router>
     );

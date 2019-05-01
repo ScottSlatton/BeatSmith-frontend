@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Event from "./Event";
 import Boss from "./Boss";
 import Timer from "./Timer";
-import Craft from "./Craft";
+import Pickaxe from "./Pickaxe";
 
 export default class Game extends Component {
   constructor(props) {
@@ -29,7 +29,7 @@ export default class Game extends Component {
     this.setState({ gameOn: false });
   };
 
-  buyCraft = (cost, multiplier) => {
+  upgradeAxe = (cost, multiplier) => {
     if (multiplier === "max") {
       let max = Math.floor(this.state.ore / cost);
       this.setState({
@@ -49,16 +49,15 @@ export default class Game extends Component {
       return (
         <div>
           <h2>Ore Gathered: {this.state.ore}</h2>
-          <h6> Weapons Made:{this.state.clickStrength} </h6>
-          <button
-            onTouch={() => this.oreClick()}
-            onClick={() => this.handleClick()}
-          >
-            {" "}
-            Play{" "}
-          </button>
+          <h6> Weapons Made: {this.state.clickStrength} </h6>
+          <button onClick={() => this.handleClick()}> Play </button>
 
-          <Craft ore={this.state.ore} buyCraft={this.buyCraft} />
+          <Pickaxe
+            ore={this.state.ore}
+            upgradeAxe={this.upgradeAxe}
+            state={this.props.state}
+          />
+          <Boss />
         </div>
       );
     } else {
@@ -66,13 +65,9 @@ export default class Game extends Component {
         <div>
           <Timer endRound={this.endRound} ore={this.state.ore} />
           <h2>Ore Gathered: {this.state.ore}</h2>
-          <h6> Weapons Made:{this.state.clickStrength} </h6>
-          <button
-            onTouch={() => this.oreClick()}
-            onClick={() => this.oreClick()}
-          >
-            Mine Ore!
-          </button>
+          <h6> Pickaxe Strength:{this.state.clickStrength} </h6>
+          <button onClick={() => this.oreClick()}>Mine Ore!</button>
+          <Boss />
         </div>
       );
     }

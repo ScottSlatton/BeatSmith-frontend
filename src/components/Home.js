@@ -9,7 +9,7 @@ export default class Home extends Component {
   render() {
     return (
       <div>
-        <Game />
+        <Game state={this.props.state} />
       </div>
     );
   }

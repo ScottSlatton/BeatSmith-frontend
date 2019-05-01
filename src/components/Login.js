@@ -26,7 +26,13 @@ export default class Login extends Component {
         }
       })
     })
-      .then(r => r.json())
+      .then(r => {
+        if (r.ok) {
+          return r.json();
+          // } else {
+          //   throw new Error("Username or Password Incorrect");
+        }
+      })
       .then(json => {
         localStorage.setItem("token", json.jwt);
         return json;
@@ -35,12 +41,19 @@ export default class Login extends Component {
       .then(json => {
         if (this.props.state.user) this.props.setLoggedIn();
       });
+    // .catch(error =>
+    //   this.setState({ error: { message: "Invalid Username or Password" } })
+    // );
   };
 
   handleChange = ev => {
     this.setState({ [ev.target.name]: ev.target.value });
   };
   render() {
+    if (this.state.error) {
+      return <p>{this.state.error.message}</p>;
+    }
+
     if (this.props.state.isLoggedIn) {
       return <Redirect to="/home" />;
     } else {
@@ -66,12 +79,6 @@ export default class Login extends Component {
                 name="password"
                 onChange={ev => this.handleChange(ev)}
                 ref={this.textInput}
-              />
-            </Form.Group>
-            <Form.Group controlId="formBasicCheckbox">
-              <Form.Check
-                type="checkbox"
-                label="I am at least 13 years of age."
               />
             </Form.Group>
             <Button variant="primary" type="submit">
