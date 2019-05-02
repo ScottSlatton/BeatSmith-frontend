@@ -55,10 +55,10 @@ export default class Login extends Component {
     }
 
     if (this.props.state.isLoggedIn) {
-      return <Redirect to="/home" />;
+      return <Redirect to="/" />;
     } else {
       return (
-        <div>
+        <div className="App-header">
           <Form onSubmit={this.handleSubmit}>
             <Form.Group controlId="formUsername">
               <Form.Label>Username</Form.Label>

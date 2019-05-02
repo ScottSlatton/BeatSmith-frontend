@@ -20,6 +20,7 @@ export default class App extends React.Component {
   updateExperience = bossExperience => {
     this.setState({
       user: {
+        ...this.state.user,
         experience: this.state.user.experience + bossExperience
       }
     });

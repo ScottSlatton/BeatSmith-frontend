@@ -19,9 +19,9 @@ export default class NavBar extends Component {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <NavDropdown title="Account" id="basic-nav-dropdown">
-              {this.props.state.user ? (
+              {this.props.state.user && localStorage.getItem("token") ? (
                 <NavDropdown.Item
-                  onClick={() => window.location.reload}
+                  onClick={(() => window.location.reload, localStorage.clear())}
                   href="/"
                 >
                   Logout
@@ -32,7 +32,7 @@ export default class NavBar extends Component {
                 </NavDropdown.Item>
               )}
               <NavDropdown.Divider />
-              {!this.props.state.user ? (
+              {this.props.state.user && !localStorage.getItem("token") ? (
                 <NavDropdown.Item>
                   {" "}
                   <Link to="/signup">SignUp</Link>{" "}

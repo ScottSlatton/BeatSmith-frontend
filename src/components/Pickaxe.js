@@ -90,9 +90,12 @@ export default class Pickaxe extends Component {
     } else {
       return (
         <div>
-          <Button>Upgrade Pickaxe</Button>
+          <Button variant="outline-danger">Upgrade Pickaxe</Button>
 
-          <Button onClick={() => this.switchMultiplier(this.state.multiplier)}>
+          <Button
+            variant="outline-warning"
+            onClick={() => this.switchMultiplier(this.state.multiplier)}
+          >
             {this.state.multiplier === "max"
               ? "Max"
               : ` x${this.state.multiplier}`}

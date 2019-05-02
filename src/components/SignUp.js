@@ -45,7 +45,7 @@ export default class SignUp extends Component {
       return <Redirect to="/" />;
     } else {
       return (
-        <div>
+        <div className="App-header">
           <Form onSubmit={this.handleSubmit}>
             <Form.Group controlId="formUsername">
               <Form.Label>Username</Form.Label>

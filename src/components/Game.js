@@ -90,7 +90,11 @@ export default class Game extends Component {
         <div>
           <h2>Ore Gathered: {this.state.ore}</h2>
           <h6> Pickaxe Strength: {this.state.clickStrength} </h6>
-          <Button variant="outline-danger" onClick={() => this.handleClick()}>
+          <Button
+            size="lg"
+            variant="success"
+            onClick={() => this.handleClick()}
+          >
             {" "}
             Play{" "}
           </Button>
@@ -113,7 +117,11 @@ export default class Game extends Component {
             Pickaxe Strength:
             {this.state.clickStrength}{" "}
           </h6>
-          <Button variant="outline-danger" onClick={() => this.oreClick()}>
+          <Button
+            variant="outline-danger"
+            size="lg"
+            onClick={() => this.oreClick()}
+          >
             Mine Ore!
           </Button>
           {!this.state.boss.defeated ? (
