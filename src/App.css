@@ -53,3 +53,11 @@
 .health {
   width: 100px;
 }
+
+.play {
+  align-items: center;
+  justify-content: center;
+}
+.progress-bar {
+  color: black;
+}

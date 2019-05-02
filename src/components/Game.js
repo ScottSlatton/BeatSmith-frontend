@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import Event from "./Event";
 import Boss from "./Boss";
 import Timer from "./Timer";
 import Pickaxe from "./Pickaxe";
-import ProgressBar from "react-bootstrap/ProgressBar";
 
 import Button from "react-bootstrap/Button";
 
@@ -26,7 +24,7 @@ export default class Game extends Component {
   bossDefeated = () => {
     console.log(this.state.boss.experience);
     this.setState({
-      boss: { defeated: true }
+      boss: { ...this.state.boss, defeated: true }
     });
 
     this.props.updateExperience(this.state.boss.experience);
@@ -90,14 +88,16 @@ export default class Game extends Component {
         <div>
           <h2>Ore Gathered: {this.state.ore}</h2>
           <h6> Pickaxe Strength: {this.state.clickStrength} </h6>
-          <Button
-            size="lg"
-            variant="success"
-            onClick={() => this.handleClick()}
-          >
-            {" "}
-            Play{" "}
-          </Button>
+          <div className="play">
+            <Button
+              size="lg"
+              variant="success"
+              onClick={() => this.handleClick()}
+            >
+              {" "}
+              Play{" "}
+            </Button>
+          </div>
           <Pickaxe
             ore={this.state.ore}
             upgradeAxe={this.upgradeAxe}

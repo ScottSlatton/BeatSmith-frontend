@@ -8,27 +8,6 @@ export default class Pickaxe extends Component {
     this.state = { cost: this.test * 10, multiplier: 1 };
   }
 
-  // setCost = () => {
-  //   this.setState
-  // }
-
-  // componentWillUnmount() {
-  //   // authenticate
-  //   fetch(`http://localhost:3000/api/v1/users/${this.props.state.user.id}`, {
-  //     method: "PATCH",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Accept: "application/json",
-  //       Authorization: `Bearer ${localStorage.getItem("token")}`
-  //     },
-  //     body: JSON.stringify({
-  //       user: {
-  //         score: this.props.ore
-  //       }
-  //     })
-  //   });
-  // }
-
   switchMultiplier = mult => {
     switch (mult) {
       case 1:
@@ -90,8 +69,9 @@ export default class Pickaxe extends Component {
     } else {
       return (
         <div>
-          <Button variant="outline-danger">Upgrade Pickaxe</Button>
-
+          <Button variant="outline-danger" disabled>
+            Upgrade Pickaxe
+          </Button>
           <Button
             variant="outline-warning"
             onClick={() => this.switchMultiplier(this.state.multiplier)}
@@ -99,7 +79,7 @@ export default class Pickaxe extends Component {
             {this.state.multiplier === "max"
               ? "Max"
               : ` x${this.state.multiplier}`}
-          </Button>
+          </Button>{" "}
           <p>Not enough ore!</p>
         </div>
       );
