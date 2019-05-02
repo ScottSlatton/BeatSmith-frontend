@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import Boss from "./Boss";
+import Fight from "./Fight";
 import Timer from "./Timer";
 import Pickaxe from "./Pickaxe";
-
 import Button from "react-bootstrap/Button";
 
 export default class Game extends Component {
@@ -15,23 +14,53 @@ export default class Game extends Component {
       gameOn: false,
       boss: {
         health: 100,
+        armor: 0,
         name: "Procrasterminator",
+        damage: 2,
         experience: 100,
         defeated: false
-      }
+      },
+      hero: {
+        health: 10,
+        armor: 0,
+        damage: 1
+      },
+      heroHasArrived: false,
+      fightStarted: false
     };
   }
   bossDefeated = () => {
-    console.log(this.state.boss.experience);
+    console.log("experience", this.state.boss.experience);
     this.setState({
       boss: { ...this.state.boss, defeated: true }
     });
 
     this.props.updateExperience(this.state.boss.experience);
   };
+  damageBoss = damage => {
+    // let updatedHealth =
+    //   this.state.boss.health - (this.state.boss.armor - damage);
+    // console.log(updatedHealth);
+    let fight = setInterval(() => {
+      this.setState({
+        boss: { ...this.state.boss, health: this.state.boss.health - damage }
+      });
+    }, 500);
+
+    if (this.state.boss.health <= 0) {
+      clearInterval(fight);
+      this.bossDefeated();
+      this.endRound();
+    }
+  };
 
   endRound = () => {
-    this.setState({ gameOn: false });
+    // player mines, timer runs out, hero comes in, player arms hero, hero damages boss
+    if (this.state.boss.health <= 0) {
+      console.log("Boss Defeated");
+      this.bossDefeated();
+    }
+    this.setState({ ...this.state, gameOn: false });
   };
 
   handleClick = () => {
@@ -39,6 +68,9 @@ export default class Game extends Component {
       clock: 30,
       gameOn: true
     });
+  };
+  heroArrives = () => {
+    this.setState({ ...this.state, heroHasArrived: true });
   };
   oreClick = () => {
     this.setState({
@@ -52,9 +84,9 @@ export default class Game extends Component {
   getBoss = userLevel => {
     //fetch a boss from backend based on user level
   };
-  takeDamage = () => {
-    console.log("boss has taken damage");
+  clickDamage = () => {
     if (this.state.boss.health >= this.state.clickStrength) {
+      console.log("boss has taken damage");
       this.setState({
         boss: {
           ...this.state.boss,
@@ -62,8 +94,13 @@ export default class Game extends Component {
         }
       });
     } else {
+      console.log("Boss defeated");
       this.bossDefeated();
     }
+  };
+
+  startFight = () => {
+    this.setState({ ...this.state, fightStarted: true });
   };
 
   upgradeAxe = (cost, multiplier) => {
@@ -110,22 +147,37 @@ export default class Game extends Component {
       //game is playing
       return (
         <div>
-          <Timer endRound={this.endRound} ore={this.state.ore} />
-          <h2>Ore Gathered: {this.state.ore}</h2>
-          <h6>
-            {" "}
-            Pickaxe Strength:
-            {this.state.clickStrength}{" "}
-          </h6>
-          <Button
-            variant="outline-danger"
-            size="lg"
-            onClick={() => this.oreClick()}
-          >
-            Mine Ore!
-          </Button>
-          {!this.state.boss.defeated ? (
-            <Boss boss={this.state.boss} takeDamage={() => this.takeDamage()} />
+          {!this.state.fightStarted ? (
+            <div>
+              <Timer heroArrives={this.heroArrives} ore={this.state.ore} />
+              <h2>Ore Gathered: {this.state.ore}</h2>
+              <h6>
+                {" "}
+                Pickaxe Strength:
+                {this.state.clickStrength}{" "}
+              </h6>
+              <Button
+                variant="outline-danger"
+                size="lg"
+                onClick={() => this.oreClick()}
+              >
+                Mine Ore!
+              </Button>
+            </div>
+          ) : null}
+          {this.state.heroHasArrived ? (
+            <div>
+              {!this.state.fightStarted ? (
+                <Button onClick={() => this.startFight()}>Start Fight</Button>
+              ) : (
+                <Fight
+                  boss={this.state.boss}
+                  hero={this.state.hero}
+                  clickDamage={this.clickDamage}
+                  endRound={this.endRound}
+                />
+              )}
+            </div>
           ) : null}
         </div>
       );

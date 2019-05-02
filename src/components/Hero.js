@@ -1,23 +1,23 @@
 import React from "react";
 import ProgressBar from "react-bootstrap/ProgressBar";
 
-const Boss = props => {
-  const { health, name } = props.boss;
+const Hero = props => {
+  const { health, armor, damage } = props.hero;
+
   const progressInstance = (
     <ProgressBar
       animated
-      variant="danger"
+      variant="success"
       now={health}
       label={`${health} HP`}
     />
   );
   return (
     <div>
-      <p>{name}</p>
+      <p>Hero</p>
       <div className="health">{progressInstance}</div>
-      <div className="boss" onClick={() => props.clickDamage()} />
+      <div className="hero" />
     </div>
   );
 };
-
-export default Boss;
+export default Hero;

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Nav from "react-bootstrap/Nav";
-import { Link } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 // import Button from "react-bootstrap/Button";
@@ -10,33 +10,33 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 
 export default class NavBar extends Component {
   render() {
+    const { isLoggedIn } = this.props.state;
     return (
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand>
-          <Link to="/">BeatSmith</Link>
-        </Navbar.Brand>
+        <LinkContainer to="/">
+          <Navbar.Brand>BeatSmith</Navbar.Brand>
+        </LinkContainer>
+
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <NavDropdown title="Account" id="basic-nav-dropdown">
-              {this.props.state.user && localStorage.getItem("token") ? (
-                <NavDropdown.Item
-                  onClick={(() => window.location.reload, localStorage.clear())}
-                  href="/"
-                >
-                  Logout
-                </NavDropdown.Item>
+              {isLoggedIn ? (
+                <LinkContainer to="/">
+                  <NavDropdown.Item
+                    onClick={
+                      (() => window.location.reload, localStorage.clear())
+                    }
+                  >
+                    Logout
+                  </NavDropdown.Item>
+                </LinkContainer>
               ) : (
-                <NavDropdown.Item>
-                  <Link to="/login">Login</Link>
-                </NavDropdown.Item>
+                <NavDropdown.Item href="/login">Login</NavDropdown.Item>
               )}
               <NavDropdown.Divider />
-              {this.props.state.user && !localStorage.getItem("token") ? (
-                <NavDropdown.Item>
-                  {" "}
-                  <Link to="/signup">SignUp</Link>{" "}
-                </NavDropdown.Item>
+              {!isLoggedIn ? (
+                <NavDropdown.Item href="/signup">Signup</NavDropdown.Item>
               ) : null}
             </NavDropdown>
           </Nav>

@@ -22,7 +22,7 @@ export default class Timer extends Component {
       });
     } else {
       localStorage.setItem("ore", this.props.ore);
-      this.props.endRound();
+      this.props.heroArrives();
     }
   }
 

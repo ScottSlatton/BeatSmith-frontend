@@ -1,12 +1,20 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default class Pickaxe extends Component {
   constructor(props) {
     super(props);
-    this.test = this.props.clickStrength;
-    this.state = { cost: this.test * 10, multiplier: 1 };
+    // this.paraCost = this.props.clickStrength;
+    this.state = { upgradeLevel: this.props.clickStrength, multiplier: 1 };
   }
+
+  cost = () => {
+    let price = this.state.upgradeLevel * 10 * this.state.multiplier;
+    // console.log(price);
+    return price;
+  };
 
   switchMultiplier = mult => {
     switch (mult) {
@@ -31,13 +39,14 @@ export default class Pickaxe extends Component {
   };
 
   canAfford = () => {
+    let price = this.cost();
     if (this.state.multiplier === "max") {
-      if (Math.floor(this.props.ore / this.state.cost) > 0) {
+      if (Math.floor(this.props.ore / price) > 0) {
         return true;
       }
     }
 
-    if (this.props.ore >= this.state.cost * this.state.multiplier) {
+    if (this.props.ore >= price) {
       return true;
     } else {
       return false;
@@ -45,17 +54,23 @@ export default class Pickaxe extends Component {
   };
 
   polyUpgradeAxe = () => {
-    this.setState({ cost: (this.test += 1) * 10 });
-    let newCost = (this.test += 1 * 10);
-    console.log(this.state.cost);
-    this.props.upgradeAxe(newCost, this.state.multiplier);
+    // let newCost = (this.state.cost += 1) * 10;
+    // console.log("next axe cost", newCost);
+
+    // this.setState({ cost: (this.paraCost += 1) * 10 });
+    this.props.upgradeAxe(this.state.cost, this.state.multiplier);
   };
 
   render() {
+    const notify = () => toast("Not Enough Ore!");
+
     if (this.canAfford()) {
       return (
         <div>
           <Button onClick={() => this.polyUpgradeAxe()}>Upgrade Pickaxe</Button>
+          <Button variant="outline-warning" disabled>
+            Cost {this.state.cost * this.state.multiplier}
+          </Button>
           <Button
             variant="outline-primary"
             onClick={() => this.switchMultiplier(this.state.multiplier)}
@@ -69,8 +84,11 @@ export default class Pickaxe extends Component {
     } else {
       return (
         <div>
-          <Button variant="outline-danger" disabled>
+          <Button variant="outline-danger" onClick={notify}>
             Upgrade Pickaxe
+          </Button>
+          <Button variant="outline-warning" disabled>
+            Cost {this.state.cost * this.state.multiplier}
           </Button>
           <Button
             variant="outline-warning"
@@ -80,7 +98,7 @@ export default class Pickaxe extends Component {
               ? "Max"
               : ` x${this.state.multiplier}`}
           </Button>{" "}
-          <p>Not enough ore!</p>
+          <ToastContainer autoClose={1000} />
         </div>
       );
     }

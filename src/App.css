@@ -38,11 +38,12 @@
   border: 2px solid black;
   border-radius: 50%;
 }
-.type2 {
-  width: 50px;
-  height: 50px;
-  background: #ccc;
-  border: 5px solid #000;
+.hero {
+  width: 100px;
+  height: 100px;
+  background: cadetblue;
+  border: 2px solid gold;
+  border-radius: 50%;
 }
 .type3 {
   width: 150px;
@@ -60,4 +61,5 @@
 }
 .progress-bar {
   color: black;
+  text-shadow: 1px 1px 1px grey;
 }

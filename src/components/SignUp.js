@@ -68,7 +68,7 @@ export default class SignUp extends Component {
                 ref={this.textInput}
               />
             </Form.Group>
-            <Form.Group controlId="formBasicCheckbox">
+            <Form.Group controlId="formBasicCheckbox" required>
               <Form.Check
                 type="checkbox"
                 label="I am at least 13 years of age."
