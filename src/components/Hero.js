@@ -1,5 +1,6 @@
 import React from "react";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import { ToastContainer, toast } from "react-toastify";
 
 const Hero = props => {
   const { health, armor, damage } = props.hero;

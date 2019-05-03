@@ -3,6 +3,7 @@ import Fight from "./Fight";
 import Timer from "./Timer";
 import Pickaxe from "./Pickaxe";
 import Button from "react-bootstrap/Button";
+import CraftContainer from "./CraftContainer";
 
 export default class Game extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ export default class Game extends Component {
     this.state = {
       clock: 30,
       ore: 0,
-      clickStrength: 1,
+      clickStrength: 10,
       gameOn: false,
       boss: {
         health: 100,
@@ -25,6 +26,19 @@ export default class Game extends Component {
         armor: 0,
         damage: 1
       },
+      crafts: [
+        {
+          name: "shield",
+          armor: 1,
+          cost: 10
+        },
+        {
+          name: "sword",
+          damage: 1,
+          cost: 10
+        }
+      ],
+
       heroHasArrived: false,
       fightStarted: false
     };
@@ -36,6 +50,19 @@ export default class Game extends Component {
     });
 
     this.props.updateExperience(this.state.boss.experience);
+  };
+  getNewMonster = () => {
+    this.setState({
+      ...this.state,
+      boss: {
+        health: 100,
+        armor: 0,
+        name: "The Deux",
+        damage: 2,
+        experience: 100,
+        defeated: false
+      }
+    });
   };
   damageBoss = damage => {
     // let updatedHealth =
@@ -60,7 +87,14 @@ export default class Game extends Component {
       console.log("Boss Defeated");
       this.bossDefeated();
     }
-    this.setState({ ...this.state, gameOn: false });
+    this.setState({
+      ...this.state,
+      gameOn: false,
+      heroHasArrived: false,
+      fightStarted: false
+    });
+    //fetch a new monster
+    this.getNewMonster();
   };
 
   handleClick = () => {
@@ -85,7 +119,7 @@ export default class Game extends Component {
     //fetch a boss from backend based on user level
   };
   clickDamage = () => {
-    if (this.state.boss.health >= this.state.clickStrength) {
+    if (this.state.boss.health > 0) {
       console.log("boss has taken damage");
       this.setState({
         boss: {
@@ -147,7 +181,7 @@ export default class Game extends Component {
       //game is playing
       return (
         <div>
-          {!this.state.fightStarted ? (
+          {!this.state.fightStarted && !this.state.heroHasArrived ? (
             <div>
               <Timer heroArrives={this.heroArrives} ore={this.state.ore} />
               <h2>Ore Gathered: {this.state.ore}</h2>
@@ -168,7 +202,12 @@ export default class Game extends Component {
           {this.state.heroHasArrived ? (
             <div>
               {!this.state.fightStarted ? (
-                <Button onClick={() => this.startFight()}>Start Fight</Button>
+                //outfitting stage
+                <div>
+                  <CraftContainer crafts={this.state.crafts} />
+
+                  <Button onClick={() => this.startFight()}>Start Fight</Button>
+                </div>
               ) : (
                 <Fight
                   boss={this.state.boss}
