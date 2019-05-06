@@ -13,7 +13,8 @@ export default class Fight extends Component {
   tick() {
     if (this.props.hero.health > 0 && this.props.boss.health > 0) {
       //every tick, do something
-      this.props.clickDamage();
+      this.props.heroAttack();
+      this.props.bossAttack();
     } else {
       //end fight
       this.props.endRound();

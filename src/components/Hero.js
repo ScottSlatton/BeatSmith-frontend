@@ -3,7 +3,7 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import { ToastContainer, toast } from "react-toastify";
 
 const Hero = props => {
-  const { health, armor, damage } = props.hero;
+  const { health, armor, damage, name } = props.hero;
 
   const progressInstance = (
     <ProgressBar
@@ -15,7 +15,8 @@ const Hero = props => {
   );
   return (
     <div>
-      <p>Hero</p>
+      <p>{`${name}`}</p>
+
       <div className="health">{progressInstance}</div>
       <div className="hero" />
     </div>

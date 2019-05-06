@@ -45,10 +45,26 @@ export default class Game extends Component {
       fightStarted: false
     };
   }
+  bossAttack = () => {
+    if (this.state.hero.health > 0) {
+      console.log("Boss strikes the hero!");
+      this.setState({
+        ...this.state,
+        hero: {
+          ...this.state.hero,
+          health: this.state.hero.health - this.state.boss.damage
+        }
+      });
+    } else {
+      console.log("Hero defeated");
+      this.heroDefeated();
+    }
+  };
 
   bossDefeated = () => {
     console.log("experience", this.state.boss.experience);
     this.setState({
+      ...this.state,
       boss: { ...this.state.boss, defeated: true }
     });
 
@@ -162,6 +178,13 @@ export default class Game extends Component {
     }
   };
 
+  heroDefeated = () => {
+    this.setState({
+      ...this.state,
+      hero: { ...this.state.hero, defeated: true }
+    });
+  };
+
   oreClick = () => {
     this.setState({
       ore: this.state.ore + this.state.clickStrength
@@ -252,7 +275,7 @@ export default class Game extends Component {
                 {this.state.clickStrength}{" "}
               </h6>
               <Button
-                variant="outline-danger"
+                variant="outline-info"
                 size="lg"
                 onClick={() => this.oreClick()}
               >
@@ -267,6 +290,8 @@ export default class Game extends Component {
                 <div>
                   <h1> A Hero has arrived! </h1>
                   <h2> Craft Weapons and Armor to defeat the Monster!</h2>
+                  <p>{`Hero Armor: ${this.state.hero.armor}`}</p>
+                  <p>{`Hero Attack: ${this.state.hero.damage}`}</p>
                   <h2>Ore Gathered: {this.state.ore}</h2>
                   <CraftContainer crafts={this.state.crafts} buy={this.buy} />
 
@@ -276,6 +301,8 @@ export default class Game extends Component {
                 <Fight
                   boss={this.state.boss}
                   hero={this.state.hero}
+                  bossAttack={this.bossAttack}
+                  heroAttack={this.heroAttack}
                   clickDamage={this.clickDamage}
                   endRound={this.endRound}
                 />
