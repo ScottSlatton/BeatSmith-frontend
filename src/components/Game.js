@@ -16,8 +16,8 @@ export default class Game extends Component {
       boss: {
         health: 100,
         armor: 0,
-        name: "Procrasterminator",
-        damage: 2,
+        name: "Blob Monster",
+        damage: 100,
         experience: 100,
         defeated: false
       },
@@ -42,17 +42,22 @@ export default class Game extends Component {
       ],
 
       heroHasArrived: false,
-      fightStarted: false
+      fightStarted: false,
+      pickaxeCost: 10
     };
   }
   bossAttack = () => {
-    if (this.state.hero.health > 0) {
+    if (this.state.hero.health >= 0) {
       console.log("Boss strikes the hero!");
+      let armorCheck = this.state.boss.damage - this.state.hero.armor;
+      if (armorCheck <= 0) {
+        return;
+      }
       this.setState({
         ...this.state,
         hero: {
           ...this.state.hero,
-          health: this.state.hero.health - this.state.boss.damage
+          health: this.state.hero.health - armorCheck
         }
       });
     } else {
@@ -96,6 +101,21 @@ export default class Game extends Component {
     // add a toast notification
   };
 
+  clickDamage = () => {
+    if (this.state.boss.health > 0) {
+      console.log("boss has taken damage");
+      this.setState({
+        boss: {
+          ...this.state.boss,
+          health: this.state.boss.health - this.state.clickStrength
+        }
+      });
+    } else {
+      console.log("Boss defeated");
+      this.bossDefeated();
+    }
+  };
+
   getNewMonster = () => {
     // this is so fetch
     this.setState({
@@ -111,32 +131,19 @@ export default class Game extends Component {
     });
   };
 
-  damageBoss = damage => {
-    // let updatedHealth =
-    //   this.state.boss.health - (this.state.boss.armor - damage);
-    // console.log(updatedHealth);
-    let fight = setInterval(() => {
-      this.setState({
-        boss: {
-          ...this.state.boss,
-          health: this.state.boss.health - damage
-        }
-      });
-    }, 500);
-
-    if (this.state.boss.health <= 0) {
-      clearInterval(fight);
-      this.bossDefeated();
-      this.endRound();
-    }
-  };
-
   endRound = () => {
     // player mines, timer runs out, hero comes in, player arms hero, hero damages boss, boss kills player
     // ba-da-bing, ba-da-boom
     if (this.state.boss.health <= 0) {
       console.log("Boss Defeated");
       this.bossDefeated();
+      //fetch a new monster
+      this.getNewMonster();
+    } else if (this.state.hero.health <= 0) {
+      console.log("Hero Defeated");
+      this.heroDefeated();
+      //fetch a new hero
+      this.spawnNewHero();
     }
     this.setState({
       ...this.state,
@@ -144,8 +151,6 @@ export default class Game extends Component {
       heroHasArrived: false,
       fightStarted: false
     });
-    //fetch a new monster
-    this.getNewMonster();
   };
 
   handleClick = () => {
@@ -163,13 +168,17 @@ export default class Game extends Component {
   };
 
   heroAttack = () => {
-    if (this.state.boss.health > 0) {
+    if (this.state.boss.health >= 0) {
       console.log("Hero strikes the monster!");
+      let armorCheck = this.state.hero.damage - this.state.boss.armor;
+      if (armorCheck <= 0) {
+        return;
+      }
       this.setState({
         ...this.state,
         boss: {
           ...this.state.boss,
-          health: this.state.boss.health - this.state.hero.damage
+          health: this.state.boss.health - armorCheck
         }
       });
     } else {
@@ -191,27 +200,25 @@ export default class Game extends Component {
     });
   };
 
-  setBoss = (name, health) => {
-    this.setState({ boss: { name, health } });
-  };
+  // setBoss = (name, health) => {
+  //   this.setState({ boss: { name, health } });
+  // };
 
   getBoss = userLevel => {
     //fetch a boss from backend based on user level
   };
 
-  clickDamage = () => {
-    if (this.state.boss.health > 0) {
-      console.log("boss has taken damage");
-      this.setState({
-        boss: {
-          ...this.state.boss,
-          health: this.state.boss.health - this.state.clickStrength
-        }
-      });
-    } else {
-      console.log("Boss defeated");
-      this.bossDefeated();
-    }
+  spawnNewHero = () => {
+    this.setState({
+      ...this.state,
+      hero: {
+        health: 100,
+        armor: 0,
+        name: "Bran",
+        damage: 1,
+        defeated: false
+      }
+    });
   };
 
   startFight = () => {
@@ -220,20 +227,13 @@ export default class Game extends Component {
       fightStarted: true
     });
   };
-
-  upgradeAxe = (cost, multiplier) => {
-    if (multiplier === "max") {
-      let max = Math.floor(this.state.ore / cost);
-      this.setState({
-        ore: this.state.ore - cost * max,
-        clickStrength: this.state.clickStrength + 1 * max
-      });
-    } else {
-      this.setState({
-        ore: this.state.ore - cost * multiplier,
-        clickStrength: this.state.clickStrength + 1 * multiplier
-      });
-    }
+  upgradeAxe = multiplier => {
+    this.setState({
+      ...this.state,
+      ore: this.state.ore - this.state.pickaxeCost * multiplier,
+      clickStrength: this.state.clickStrength + multiplier,
+      pickaxeCost: this.state.pickaxeCost + 10 * multiplier
+    });
   };
 
   render() {
@@ -258,6 +258,7 @@ export default class Game extends Component {
             upgradeAxe={this.upgradeAxe}
             state={this.props.state}
             clickStrength={this.state.clickStrength}
+            cost={this.state.pickaxeCost}
           />
         </div>
       );

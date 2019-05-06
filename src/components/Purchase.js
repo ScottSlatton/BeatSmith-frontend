@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 const Purchase = props => {
   return (
     <Button variant="outline-warning" onClick={() => props.buy(props.craft)}>
-      Buy{`${props.craft.cost}`}
+      Buy {`${props.craft.cost}`}
     </Button>
   );
 };

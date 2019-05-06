@@ -7,45 +7,14 @@ export default class Pickaxe extends Component {
   constructor(props) {
     super(props);
     // this.paraCost = this.props.clickStrength;
-    this.state = { upgradeLevel: this.props.clickStrength, multiplier: 1 };
+    this.state = {
+      cost: this.props.cost,
+      multiplier: 1
+    };
   }
-
-  cost = () => {
-    let price = this.state.upgradeLevel * 10 * this.state.multiplier;
-    // console.log(price);
-    return price;
-  };
-
-  switchMultiplier = mult => {
-    switch (mult) {
-      case 1:
-        this.setState({ multiplier: 3 });
-
-        break;
-      case 3:
-        this.setState({ multiplier: 10 });
-        break;
-      case 10:
-        this.setState({ multiplier: "max" });
-        break;
-      case "max":
-        this.setState({
-          multiplier: 1
-        });
-        break;
-      default:
-        this.setState({ multiplier: 1 });
-    }
-  };
 
   canAfford = () => {
     let price = this.cost();
-    if (this.state.multiplier === "max") {
-      if (Math.floor(this.props.ore / price) > 0) {
-        return true;
-      }
-    }
-
     if (this.props.ore >= price) {
       return true;
     } else {
@@ -53,12 +22,26 @@ export default class Pickaxe extends Component {
     }
   };
 
-  polyUpgradeAxe = () => {
-    // let newCost = (this.state.cost += 1) * 10;
-    // console.log("next axe cost", newCost);
+  cost = () => {
+    let price = this.props.cost * this.state.multiplier;
+    console.log("price: ", price);
+    return price;
+  };
 
-    // this.setState({ cost: (this.paraCost += 1) * 10 });
-    this.props.upgradeAxe(this.state.cost, this.state.multiplier);
+  switchMultiplier = mult => {
+    switch (mult) {
+      case 1:
+        this.setState({ multiplier: 3 });
+        break;
+      case 3:
+        this.setState({ multiplier: 10 });
+        break;
+      case 10:
+        this.setState({ multiplier: 1 });
+        break;
+      default:
+        this.setState({ multiplier: 1 });
+    }
   };
 
   render() {
@@ -67,17 +50,17 @@ export default class Pickaxe extends Component {
     if (this.canAfford()) {
       return (
         <div>
-          <Button onClick={() => this.polyUpgradeAxe()}>Upgrade Pickaxe</Button>
+          <Button onClick={() => this.props.upgradeAxe(this.state.multiplier)}>
+            Upgrade Pickaxe
+          </Button>
           <Button variant="outline-warning" disabled>
-            Cost {this.state.cost * this.state.multiplier}
+            Cost {this.props.clickStrength * 10 * this.state.multiplier}
           </Button>
           <Button
             variant="outline-primary"
             onClick={() => this.switchMultiplier(this.state.multiplier)}
           >
-            {this.state.multiplier === "max"
-              ? "Max"
-              : ` x${this.state.multiplier}`}
+            {`x${this.state.multiplier}`}
           </Button>
         </div>
       );
@@ -88,15 +71,13 @@ export default class Pickaxe extends Component {
             Upgrade Pickaxe
           </Button>
           <Button variant="outline-warning" disabled>
-            Cost {this.state.cost * this.state.multiplier}
+            Cost {this.props.clickStrength * 10 * this.state.multiplier}
           </Button>
           <Button
             variant="outline-warning"
             onClick={() => this.switchMultiplier(this.state.multiplier)}
           >
-            {this.state.multiplier === "max"
-              ? "Max"
-              : ` x${this.state.multiplier}`}
+            {`x${this.state.multiplier}`}
           </Button>{" "}
           <ToastContainer autoClose={1000} />
         </div>
