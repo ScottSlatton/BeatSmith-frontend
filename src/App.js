@@ -12,24 +12,42 @@ export default class App extends React.Component {
     this.state = { isLoggedIn: false, user: { experience: 0, level: 1 } };
   }
   setUser = user => {
-    this.setState({ user });
+    this.setState({ ...this.state, user, isLoggedIn: true });
   };
 
-  setLoggedIn = () => {
-    this.setState({ isLoggedIn: true });
-  };
+  // setLoggedIn = () => {
+  //   this.setState({ ...this.state });
+  // };
 
   updateExperience = bossExperience => {
+    let updatedExperience = this.state.user.experience + bossExperience;
     this.setState({
       user: {
         ...this.state.user,
-        experience: this.state.user.experience + bossExperience
+        experience: updatedExperience
       }
     });
-    this.sendExperience();
+    this.sendExperience(updatedExperience);
   };
 
-  sendExperience = userExp => {};
+  sendExperience = userExp => {
+    let token = localStorage.getItem("token");
+    fetch(`http://localhost:3000/api/v1/users/${this.state.user.id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({
+        user: {
+          experience: userExp
+        }
+      })
+    })
+      .then(r => r.json())
+      .then(console.log);
+  };
 
   render() {
     return (

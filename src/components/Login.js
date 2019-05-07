@@ -26,21 +26,15 @@ export default class Login extends Component {
         }
       })
     })
-      .then(r => {
-        if (r.ok) {
-          return r.json();
-          // } else {
-          //   throw new Error("Username or Password Incorrect");
-        }
-      })
       .then(json => {
+        debugger;
         localStorage.setItem("token", json.jwt);
         return json;
       })
-      .then(json => this.props.setUser(json.user))
-      .then(json => {
-        if (this.props.state.user) this.props.setLoggedIn();
-      });
+      .then(json => this.props.setUser(json.user));
+    // .then(json => {
+    //   if (this.props.state.user) this.props.setLoggedIn();
+    // });
     // .catch(error =>
     //   this.setState({ error: { message: "Invalid Username or Password" } })
     // );

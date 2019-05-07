@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Fight from "./Fight";
 import Timer from "./Timer";
 import Pickaxe from "./Pickaxe";
+import Mine from "./Mine";
 import Button from "react-bootstrap/Button";
 import CraftContainer from "./CraftContainer";
 
@@ -11,6 +12,7 @@ export default class Game extends Component {
     this.state = {
       clock: 30,
       ore: 0,
+      oreTapped: false,
       clickStrength: 1,
       gameOn: false,
       hero: {
@@ -198,9 +200,11 @@ export default class Game extends Component {
     });
   };
 
-  oreClick = () => {
+  oreClick = score => {
     this.setState({
-      ore: this.state.ore + this.state.clickStrength
+      ...this.state,
+      ore: this.state.ore + score + this.state.clickStrength,
+      oreTapped: true
     });
   };
 
@@ -297,13 +301,7 @@ export default class Game extends Component {
                 Pickaxe Strength:
                 {this.state.clickStrength}{" "}
               </h6>
-              <Button
-                variant="outline-info"
-                size="lg"
-                onClick={() => this.oreClick()}
-              >
-                Mine Ore!
-              </Button>
+              <Mine oreClick={this.oreClick} />
             </div>
           ) : null}
           {this.state.heroHasArrived ? (
