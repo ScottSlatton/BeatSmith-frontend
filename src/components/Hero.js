@@ -1,9 +1,9 @@
 import React from "react";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import { ToastContainer, toast } from "react-toastify";
+// import { ToastContainer, toast } from "react-toastify";
 
 const Hero = props => {
-  const { health, armor, damage, name } = props.hero;
+  const { health, name } = props.hero;
 
   const progressInstance = (
     <ProgressBar

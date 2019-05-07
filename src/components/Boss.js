@@ -15,7 +15,7 @@ const Boss = props => {
     <div>
       <p>{name}</p>
       <div className="health">{progressInstance}</div>
-      <div className="boss" onClick={() => props.clickDamage()} />
+      <div className="boss" onClick={ev => props.clickDamage(ev)} />
     </div>
   );
 };

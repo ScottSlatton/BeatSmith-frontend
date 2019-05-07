@@ -14,9 +14,11 @@ export default class App extends React.Component {
   setUser = user => {
     this.setState({ user });
   };
+
   setLoggedIn = () => {
     this.setState({ isLoggedIn: true });
   };
+
   updateExperience = bossExperience => {
     this.setState({
       user: {
@@ -24,7 +26,11 @@ export default class App extends React.Component {
         experience: this.state.user.experience + bossExperience
       }
     });
+    this.sendExperience();
   };
+
+  sendExperience = userExp => {};
+
   render() {
     return (
       <Router>

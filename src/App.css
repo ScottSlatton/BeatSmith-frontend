@@ -38,6 +38,20 @@
   border: 2px solid black;
   border-radius: 50%;
 }
+.boss:hover {
+  width: 100px;
+  height: 100px;
+  background: red;
+  border: 2px solid goldenrod;
+  border-radius: 50%;
+}
+.boss-defeated {
+  width: 100px;
+  height: 100px;
+  background: grey;
+  border: 2px solid black;
+  border-radius: 50%;
+}
 .hero {
   width: 100px;
   height: 100px;
