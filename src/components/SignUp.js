@@ -27,14 +27,7 @@ export default class SignUp extends Component {
       })
     })
       .then(r => r.json())
-      .then(json => {
-        localStorage.setItem("token", json.jwt);
-        return json;
-      })
-      .then(json => this.props.setUser(json.user))
-      .then(json => {
-        if (this.props.state.user) this.props.setLoggedIn();
-      });
+      .then(json => this.props.setUser(json.user));
   };
 
   handleChange = ev => {

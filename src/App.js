@@ -12,7 +12,7 @@ export default class App extends React.Component {
     this.state = { isLoggedIn: false, user: { experience: 0, level: 1 } };
   }
   setUser = user => {
-    this.setState({ ...this.state, user, isLoggedIn: true });
+    this.setState({ ...this.state, user: user, isLoggedIn: true });
   };
 
   // setLoggedIn = () => {
@@ -55,34 +55,18 @@ export default class App extends React.Component {
         <React.Fragment>
           <Route
             path="/"
-            render={props => (
-              <NavBar
-                {...props}
-                state={this.state}
-                setLoggedIn={this.setLoggedIn}
-              />
-            )}
+            render={props => <NavBar {...props} state={this.state} />}
           />
           <Route
             path="/login"
             render={props => (
-              <Login
-                {...props}
-                state={this.state}
-                setUser={this.setUser}
-                setLoggedIn={this.setLoggedIn}
-              />
+              <Login {...props} state={this.state} setUser={this.setUser} />
             )}
           />
           <Route
             path="/signup"
             render={props => (
-              <SignUp
-                {...props}
-                state={this.state}
-                setUser={this.setUser}
-                setLoggedIn={this.setLoggedIn}
-              />
+              <SignUp {...props} state={this.state} setUser={this.setUser} />
             )}
           />
           <Route
@@ -93,7 +77,6 @@ export default class App extends React.Component {
                 {...props}
                 state={this.state}
                 setUser={this.setUser}
-                setLoggedIn={this.setLoggedIn}
                 updateExperience={this.updateExperience}
               />
             )}

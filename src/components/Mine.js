@@ -6,9 +6,11 @@ export default class Mine extends Component {
     super(props);
     this.state = { score: 1, button: 0 };
   }
+
   componentDidMount() {
     this.timerID = setInterval(() => this.tick(), 200);
   }
+
   tick() {
     // every tick, do something
     //
@@ -21,7 +23,7 @@ export default class Mine extends Component {
   }
 
   updateButton = counter => {
-    if (counter >= 3 && counter < 5) {
+    if (counter >= 3) {
       this.setState({ ...this.state, button: 1 });
     } else if (counter === 5) {
       this.setState({ ...this.state, button: 2 });
@@ -29,7 +31,9 @@ export default class Mine extends Component {
       this.setState({ ...this.state, button: 0 });
     }
   };
+
   componentWillUnmount() {
+    this.props.respawnOre();
     clearInterval(this.timerID);
   }
 
@@ -48,7 +52,7 @@ export default class Mine extends Component {
       case 1:
         return (
           <Button
-            variant="outline-warning"
+            variant="outline-success"
             size="lg"
             onClick={() => this.props.oreClick(this.state.score)}
           >

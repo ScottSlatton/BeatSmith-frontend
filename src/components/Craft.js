@@ -7,7 +7,7 @@ const Craft = props => {
   const { name } = props.craft;
   return (
     <div>
-      <Button variant="outline-info" disabled>{`${name}`}</Button>
+      <Button disabled variant="info">{`${name}`}</Button>
       <Purchase craft={props.craft} buy={props.buy} />
     </div>
   );

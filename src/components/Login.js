@@ -25,13 +25,9 @@ export default class Login extends Component {
           password: password
         }
       })
-    })
-      .then(json => {
-        debugger;
-        localStorage.setItem("token", json.jwt);
-        return json;
-      })
-      .then(json => this.props.setUser(json.user));
+    }).then(json => {
+      this.props.setUser(json.user);
+    });
     // .then(json => {
     //   if (this.props.state.user) this.props.setLoggedIn();
     // });

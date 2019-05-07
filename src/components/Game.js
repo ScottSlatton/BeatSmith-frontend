@@ -11,6 +11,7 @@ export default class Game extends Component {
     super(props);
     this.state = {
       clock: 30,
+      combo: 0,
       ore: 0,
       oreTapped: false,
       clickStrength: 1,
@@ -201,11 +202,24 @@ export default class Game extends Component {
   };
 
   oreClick = score => {
-    this.setState({
-      ...this.state,
-      ore: this.state.ore + score + this.state.clickStrength,
-      oreTapped: true
-    });
+    if (score === 5) {
+      let ore = 5;
+      this.updateCombo();
+      this.setState({
+        ...this.state,
+        combo: this.state.combo + 1,
+        ore:
+          this.state.ore + (this.state.clickStrength + ore * this.state.combo),
+        oreTapped: true
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        combo: 0,
+        ore: this.state.ore + this.state.clickStrength,
+        oreTapped: true
+      });
+    }
   };
 
   setBoss = bosses => {
@@ -231,6 +245,13 @@ export default class Game extends Component {
       .then(bosses => this.setBoss(bosses));
   };
 
+  respawnOre = () => {
+    this.setState({
+      ...this.state,
+      oreTapped: false
+    });
+  };
+
   spawnNewHero = () => {
     this.setState({
       ...this.state,
@@ -248,9 +269,13 @@ export default class Game extends Component {
     if (this.state.boss || this.state.boss.defeated === false) {
       this.setState({
         ...this.state,
-        fightStarted: true
+        fightStarted: true,
+        combo: 0
       });
     }
+  };
+  updateCombo = () => {
+    this.setState({ ...this.state, combo: this.state.combo + 1 });
   };
 
   upgradeAxe = multiplier => {
@@ -301,7 +326,18 @@ export default class Game extends Component {
                 Pickaxe Strength:
                 {this.state.clickStrength}{" "}
               </h6>
-              <Mine oreClick={this.oreClick} />
+              <h6>
+                {this.state.combo > 0
+                  ? `COMBO!!!!!!!!!!!!!!! ${this.state.combo}`
+                  : null}
+              </h6>
+              {this.state.oreTapped ? null : (
+                <Mine
+                  clearOre={this.clearOre}
+                  respawnOre={this.respawnOre}
+                  oreClick={this.oreClick}
+                />
+              )}
             </div>
           ) : null}
           {this.state.heroHasArrived ? (
