@@ -19,7 +19,6 @@ export default class Mine extends Component {
     if (this.state.score > 5) {
       this.setState({ ...this.state, score: 1 });
     }
-    console.log("score", this.state.score);
   }
 
   updateButton = counter => {

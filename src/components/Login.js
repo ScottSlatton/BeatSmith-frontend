@@ -34,7 +34,7 @@ export default class Login extends Component {
         if (user.user) {
           this.props.setUser(user.user);
         } else {
-          console.log(json);
+
           this.setState({ error: json.error });
         }
       });

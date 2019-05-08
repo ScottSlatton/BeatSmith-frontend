@@ -8,6 +8,9 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+.boss-container {
+  justify-content: flex-end;
+}
 
 .boss {
   width: 100px;

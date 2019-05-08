@@ -46,7 +46,7 @@ export default class App extends React.Component {
       })
     })
       .then(r => r.json())
-      .then(console.log);
+
   };
 
   resetState = () => {

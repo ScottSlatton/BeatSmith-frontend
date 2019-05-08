@@ -31,7 +31,6 @@ export default class SignUp extends Component {
         if (json.user) {
           this.props.setUser(json.user);
         } else {
-          console.log(json);
           this.setState({ error: json.error });
         }
       });

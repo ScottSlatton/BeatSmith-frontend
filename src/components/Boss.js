@@ -12,7 +12,7 @@ const Boss = props => {
     />
   );
   return (
-    <div>
+    <div className="boss-container">
       <h2>{name}</h2>
       <div className="health">{progressInstance}</div>
       <div className="boss" onClick={ev => props.clickDamage(ev)} />

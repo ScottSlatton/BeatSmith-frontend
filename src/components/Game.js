@@ -3,6 +3,7 @@ import Fight from "./Fight";
 import Timer from "./Timer";
 import Pickaxe from "./Pickaxe";
 import Mine from "./Mine";
+import Save from "./Save";
 import Button from "react-bootstrap/Button";
 import CraftContainer from "./CraftContainer";
 
@@ -48,7 +49,6 @@ export default class Game extends Component {
 
   bossAttack = () => {
     if (this.state.hero.health >= 0) {
-      console.log("Boss strikes the hero!");
       let armorCheck = this.state.boss.damage - this.state.hero.armor;
       if (armorCheck <= 0) {
         return;
@@ -61,13 +61,13 @@ export default class Game extends Component {
         }
       });
     } else {
-      console.log("Hero defeated");
+
       this.heroDefeated();
     }
   };
 
   bossDefeated = () => {
-    console.log("experience", this.state.boss.experience);
+
     this.setState({
       ...this.state,
       boss: { ...this.state.boss, defeated: true }
@@ -103,7 +103,7 @@ export default class Game extends Component {
 
   clickDamage = ev => {
     if (this.state.boss.health > 0) {
-      console.log("boss has taken damage");
+
       this.setState({
         boss: {
           ...this.state.boss,
@@ -111,7 +111,7 @@ export default class Game extends Component {
         }
       });
     } else {
-      console.log("Boss defeated");
+
       ev.target.className = "boss-defeated";
       this.bossDefeated();
     }
@@ -142,12 +142,12 @@ export default class Game extends Component {
     // player mines, timer runs out, hero comes in, player arms hero, hero damages boss, boss kills player
     // ba-da-bing, ba-da-boom
     if (this.state.boss.health <= 0) {
-      console.log("Boss Defeated");
+
       this.bossDefeated();
       //fetch a new monster
       this.getNewMonster();
     } else if (this.state.hero.health <= 0) {
-      console.log("Hero Defeated");
+
       this.heroDefeated();
       //fetch a new hero
       this.spawnNewHero();
@@ -176,7 +176,7 @@ export default class Game extends Component {
 
   heroAttack = () => {
     if (this.state.boss.health >= 0) {
-      console.log("Hero strikes the monster!");
+
       let armorCheck = this.state.hero.damage - this.state.boss.armor;
       if (armorCheck <= 0) {
         return;
@@ -189,7 +189,7 @@ export default class Game extends Component {
         }
       });
     } else {
-      console.log("Boss defeated");
+
       this.bossDefeated();
     }
   };
@@ -202,7 +202,7 @@ export default class Game extends Component {
   };
 
   oreClick = score => {
-    console.log("clicked at", score);
+
     if (score === 5) {
       let ore = 5;
       let comboCounter = this.updateCombo();
@@ -304,6 +304,9 @@ export default class Game extends Component {
               {" "}
               Play{" "}
             </Button>
+            {this.props.state.isLoggedIn ? (
+              <Save state={this.props.state} />
+            ) : null}
           </div>
           <Pickaxe
             ore={this.state.ore}
@@ -354,15 +357,15 @@ export default class Game extends Component {
                   <Button onClick={() => this.startFight()}>Start Fight</Button>
                 </div>
               ) : (
-                <Fight
-                  boss={this.state.boss}
-                  hero={this.state.hero}
-                  bossAttack={this.bossAttack}
-                  heroAttack={this.heroAttack}
-                  clickDamage={this.clickDamage}
-                  endRound={this.endRound}
-                />
-              )}
+                  <Fight
+                    boss={this.state.boss}
+                    hero={this.state.hero}
+                    bossAttack={this.bossAttack}
+                    heroAttack={this.heroAttack}
+                    clickDamage={this.clickDamage}
+                    endRound={this.endRound}
+                  />
+                )}
             </div>
           ) : null}
         </div>
