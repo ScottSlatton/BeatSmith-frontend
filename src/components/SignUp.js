@@ -26,8 +26,15 @@ export default class SignUp extends Component {
         }
       })
     })
-      .then(r => r.json())
-      .then(json => this.props.setUser(json.user));
+      .then(res => res.json())
+      .then(json => {
+        if (json.user) {
+          this.props.setUser(json.user);
+        } else {
+          console.log(json);
+          this.setState({ error: json.error });
+        }
+      });
   };
 
   handleChange = ev => {
@@ -70,6 +77,12 @@ export default class SignUp extends Component {
             <Button variant="primary" type="submit">
               Submit
             </Button>
+            {this.state.error ? (
+              <div className="error">
+                {" "}
+                <p>{`${this.state.error}`}</p>
+              </div>
+            ) : null}
           </Form>
         </div>
       );

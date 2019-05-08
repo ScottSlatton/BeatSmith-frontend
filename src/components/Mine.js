@@ -23,10 +23,12 @@ export default class Mine extends Component {
   }
 
   updateButton = counter => {
-    if (counter >= 3) {
+    if (counter <= 2) {
       this.setState({ ...this.state, button: 1 });
-    } else if (counter === 5) {
+    } else if (counter <= 3) {
       this.setState({ ...this.state, button: 2 });
+    } else if (counter <= 5) {
+      this.setState({ ...this.state, button: 0 });
     } else {
       this.setState({ ...this.state, button: 0 });
     }
@@ -52,7 +54,7 @@ export default class Mine extends Component {
       case 1:
         return (
           <Button
-            variant="outline-success"
+            variant="outline-warning"
             size="lg"
             onClick={() => this.props.oreClick(this.state.score)}
           >

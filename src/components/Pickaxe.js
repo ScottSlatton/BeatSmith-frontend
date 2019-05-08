@@ -8,7 +8,6 @@ export default class Pickaxe extends Component {
     super(props);
     // this.paraCost = this.props.clickStrength;
     this.state = {
-      cost: this.props.cost,
       multiplier: 1
     };
   }
@@ -24,7 +23,6 @@ export default class Pickaxe extends Component {
 
   cost = () => {
     let price = this.props.cost * this.state.multiplier;
-    console.log("price: ", price);
     return price;
   };
 

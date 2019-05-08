@@ -1,13 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -19,18 +9,6 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 .boss {
   width: 100px;
   height: 100px;
@@ -59,12 +37,6 @@
   border: 2px solid gold;
   border-radius: 50%;
 }
-.type3 {
-  width: 150px;
-  height: 150px;
-  background: aqua;
-  border: 5px solid blue;
-}
 .health {
   width: 100px;
 }
@@ -76,4 +48,11 @@
 .progress-bar {
   color: black;
   text-shadow: 1px 1px 1px grey;
+}
+.error {
+  border-radius: 20px;
+  background: red;
+  padding: 10px;
+  padding-top: 30px;
+  text-align: center;
 }

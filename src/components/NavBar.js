@@ -12,9 +12,18 @@ export default class NavBar extends Component {
   render() {
     const { isLoggedIn } = this.props.state;
     return (
-      <Navbar bg="light" expand="lg">
+      <Navbar bg="dark" variant="dark" expand="lg">
         <LinkContainer to="/">
-          <Navbar.Brand>BeatSmith</Navbar.Brand>
+          <Navbar.Brand href="#home">
+            <img
+              src="/hammer-drop.svg"
+              width="30"
+              height="30"
+              className="d-inline-block align-top"
+              alt="BeatSmith Logo"
+            />
+            {" BeatSmith"}
+          </Navbar.Brand>
         </LinkContainer>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -22,15 +31,9 @@ export default class NavBar extends Component {
           <Nav className="mr-auto">
             <NavDropdown title="Account" id="basic-nav-dropdown">
               {isLoggedIn ? (
-                <LinkContainer to="/">
-                  <NavDropdown.Item
-                    onClick={
-                      (() => window.location.reload, localStorage.clear())
-                    }
-                  >
-                    Logout
-                  </NavDropdown.Item>
-                </LinkContainer>
+                <NavDropdown.Item onClick={() => this.props.resetState()}>
+                  Logout
+                </NavDropdown.Item>
               ) : (
                 <NavDropdown.Item href="/login">Login</NavDropdown.Item>
               )}

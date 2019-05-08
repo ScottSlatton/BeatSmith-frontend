@@ -202,14 +202,15 @@ export default class Game extends Component {
   };
 
   oreClick = score => {
+    console.log("clicked at", score);
     if (score === 5) {
       let ore = 5;
-      this.updateCombo();
+      let comboCounter = this.updateCombo();
+
       this.setState({
         ...this.state,
-        combo: this.state.combo + 1,
-        ore:
-          this.state.ore + (this.state.clickStrength + ore * this.state.combo),
+        combo: comboCounter,
+        ore: this.state.ore + ore + this.state.clickStrength * comboCounter,
         oreTapped: true
       });
     } else {
@@ -275,7 +276,7 @@ export default class Game extends Component {
     }
   };
   updateCombo = () => {
-    this.setState({ ...this.state, combo: this.state.combo + 1 });
+    return this.state.combo + 1;
   };
 
   upgradeAxe = multiplier => {
@@ -326,20 +327,18 @@ export default class Game extends Component {
                 Pickaxe Strength:
                 {this.state.clickStrength}{" "}
               </h6>
-              <h6>
-                {this.state.combo > 0
-                  ? `COMBO!!!!!!!!!!!!!!! ${this.state.combo}`
-                  : null}
-              </h6>
               {this.state.oreTapped ? null : (
                 <Mine
                   clearOre={this.clearOre}
                   respawnOre={this.respawnOre}
                   oreClick={this.oreClick}
                 />
-              )}
+              )}{" "}
             </div>
           ) : null}
+          <div>
+            {!this.state.heroHasArrived ? `Combo: ${this.state.combo}` : null}
+          </div>
           {this.state.heroHasArrived ? (
             <div>
               {!this.state.fightStarted ? (

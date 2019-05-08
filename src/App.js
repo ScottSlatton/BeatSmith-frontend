@@ -49,13 +49,23 @@ export default class App extends React.Component {
       .then(console.log);
   };
 
+  resetState = () => {
+    window.location.reload();
+  };
+
   render() {
     return (
       <Router>
         <React.Fragment>
           <Route
             path="/"
-            render={props => <NavBar {...props} state={this.state} />}
+            render={props => (
+              <NavBar
+                {...props}
+                resetState={this.resetState}
+                state={this.state}
+              />
+            )}
           />
           <Route
             path="/login"
