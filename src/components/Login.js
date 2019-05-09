@@ -13,7 +13,7 @@ export default class Login extends Component {
     let username = this.state.username;
     let password = this.state.password;
     // authenticate
-    fetch("http://localhost:3000/sessions/create", {
+    fetch("https://beatsmith-api.herokuapp.com/sessions/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 const Save = props => {
   function saveUserState(user) {
 
-    fetch(`http://localhost:3000/api/v1/users/${user.id}`, {
+    fetch(`https://beatsmith-api.herokuapp.com/api/v1/users/${user.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

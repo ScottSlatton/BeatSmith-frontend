@@ -13,7 +13,7 @@ export default class SignUp extends Component {
     let username = this.state.username;
     let password = this.state.password;
     // authenticate
-    fetch("http://localhost:3000/api/v1/users", {
+    fetch("https://beatsmith-api.herokuapp.com/api/v1/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

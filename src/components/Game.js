@@ -231,11 +231,7 @@ export default class Game extends Component {
   };
 
   setBoss = level => {
-
     let randBoss = level.bosses[Math.floor(Math.random() * level.bosses.length)];
-
-
-
     this.setState({
       ...this.state,
       boss: randBoss
@@ -248,8 +244,10 @@ export default class Game extends Component {
     fetch(`https://beatsmith-api.herokuapp.com/api/v1/levels/${this.props.state.user.level}`)
       .then(res => res.json())
       .then(level => {
-
         this.setBoss(level)
+        this.setState({
+          ...this.state, boss: { ...this.state.boss, defeated: false }
+        })
       });
   };
 

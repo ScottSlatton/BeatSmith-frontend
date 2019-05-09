@@ -36,7 +36,7 @@ export default class App extends React.Component {
 
   sendAutoSave = (userExp, userOre, userClick) => {
     let token = localStorage.getItem("token");
-    fetch(`http://localhost:3000/api/v1/users/${this.state.user.id}`, {
+    fetch(`https://beatsmith-api.herokuapp.com/api/v1/users/${this.state.user.id}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
