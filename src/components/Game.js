@@ -123,28 +123,6 @@ export default class Game extends Component {
     }
   }
 
-  getNewMonster = () => {
-    // this is so fetch
-
-    fetch(`https://beatsmith-api.herokuapp.com/api/v1/levels/${this.props.state.user.level}`)
-      .then(res => res.json())
-      .then(json => this.setState({
-        ...this.state, boss: { json }
-      }))
-
-    // this.setState({
-    //   ...this.state,
-    //   boss: {
-    //     health: 100,
-    //     armor: 0,
-    //     name: "The Deux",
-    //     damage: 2,
-    //     experience: 100,
-    //     defeated: false
-    //   }
-    // });
-  };
-
   endRound = () => {
     // player mines, timer runs out, hero comes in, player arms hero, hero damages boss, boss kills player
     // ba-da-bing, ba-da-boom
@@ -152,7 +130,7 @@ export default class Game extends Component {
 
       this.bossDefeated();
       //fetch a new monster
-      this.getNewMonster();
+      this.getBoss();
     } else if (this.state.hero.health <= 0) {
 
       this.heroDefeated();

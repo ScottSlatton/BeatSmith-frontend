@@ -21,6 +21,10 @@ export default class App extends React.Component {
 
   autoSave = (bossExperience, userOre, userClick) => {
     let updatedExperience = this.state.user.experience + bossExperience;
+    if (updatedExperience > 100) {
+      this.levelUp()
+      updatedExperience = 0
+    }
     let updatedClickStrength = this.state.user.click_strength + userClick
     this.setState({
       user: {
@@ -32,6 +36,9 @@ export default class App extends React.Component {
     });
     this.sendAutoSave(updatedExperience, userOre, updatedClickStrength);
   };
+  levelUp = () => {
+    this.setState({ ...this.state, user: { level: this.state.user + 1, experience: 0 } })
+  }
 
   sendAutoSave = (userExp, userOre, userClick) => {
     let token = localStorage.getItem("token");
