@@ -5,6 +5,7 @@ import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import SignUp from "./components/SignUp";
+import { ToastContainer, toast } from "react-toastify";
 
 export default class App extends React.Component {
   constructor() {
@@ -36,7 +37,9 @@ export default class App extends React.Component {
         click_strength: userClick
       }
     });
-    this.sendAutoSave(updatedExperience, userOre, userClick, updatedLevel);
+    if (this.state.user.id) {
+      this.sendAutoSave(updatedExperience, userOre, userClick, updatedLevel);
+    }
   };
 
   levelUp = () => {
@@ -59,7 +62,7 @@ export default class App extends React.Component {
         }
       })
     })
-      .then(r => r.json())
+      .then(r => r.json()).then(() => this.notify())
 
   };
 
@@ -67,46 +70,52 @@ export default class App extends React.Component {
     window.location.reload();
   };
 
+  notify = () => toast("Game Saved");
+
   render() {
+
     return (
-      <Router>
-        <React.Fragment>
-          <Route
-            path="/"
-            render={props => (
-              <NavBar
-                {...props}
-                resetState={this.resetState}
-                state={this.state}
-              />
-            )}
-          />
-          <Route
-            path="/login"
-            render={props => (
-              <Login {...props} state={this.state} setUser={this.setUser} />
-            )}
-          />
-          <Route
-            path="/signup"
-            render={props => (
-              <SignUp {...props} state={this.state} setUser={this.setUser} />
-            )}
-          />
-          <Route
-            exact
-            path="/"
-            render={props => (
-              <Home
-                {...props}
-                state={this.state}
-                setUser={this.setUser}
-                autoSave={this.autoSave}
-              />
-            )}
-          />
-        </React.Fragment>
-      </Router>
+      <div>
+        <Router>
+          <React.Fragment>
+            <Route
+              path="/"
+              render={props => (
+                <NavBar
+                  {...props}
+                  resetState={this.resetState}
+                  state={this.state}
+                />
+              )}
+            />
+            <Route
+              path="/login"
+              render={props => (
+                <Login {...props} state={this.state} setUser={this.setUser} />
+              )}
+            />
+            <Route
+              path="/signup"
+              render={props => (
+                <SignUp {...props} state={this.state} setUser={this.setUser} />
+              )}
+            />
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <Home
+                  {...props}
+                  state={this.state}
+                  setUser={this.setUser}
+                  autoSave={this.autoSave}
+                />
+              )}
+            />
+          </React.Fragment>
+        </Router>
+        <ToastContainer autoClose={1000} />
+      </div>
     );
   }
 }

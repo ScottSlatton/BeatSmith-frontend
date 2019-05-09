@@ -6,6 +6,7 @@ import Mine from "./Mine";
 import Save from "./Save";
 import Button from "react-bootstrap/Button";
 import CraftContainer from "./CraftContainer";
+import { toast } from "react-toastify";
 
 export default class Game extends Component {
   constructor(props) {
@@ -26,14 +27,14 @@ export default class Game extends Component {
       },
       crafts: [
         {
-          name: "Wooden Shield",
+          name: "Shield Upgrade",
           type: "shield",
           armor: 1,
           cost: 10,
           level: 1
         },
         {
-          name: "Wooden Sword",
+          name: "Sword Upgrade",
           type: "weapon",
           damage: 1,
           cost: 10,
@@ -98,6 +99,8 @@ export default class Game extends Component {
         });
       }
     }
+    const notify = () => toast(`${craft.name} Bought!`);
+    notify()
     // add a toast notification
   };
 
@@ -298,6 +301,7 @@ export default class Game extends Component {
             click_strength={this.state.click_strength}
             cost={this.state.pickaxeCost}
           />
+
         </div>
       );
     } else {
@@ -320,6 +324,7 @@ export default class Game extends Component {
                   oreClick={this.oreClick}
                 />
               )}{" "}
+
             </div>
           ) : null}
           <div>
@@ -340,14 +345,17 @@ export default class Game extends Component {
                   <Button onClick={() => this.startFight()}>Start Fight</Button>
                 </div>
               ) : (
-                  <Fight
-                    boss={this.state.boss}
-                    hero={this.state.hero}
-                    bossAttack={this.bossAttack}
-                    heroAttack={this.heroAttack}
-                    clickDamage={this.clickDamage}
-                    endRound={this.endRound}
-                  />
+                  <div>
+                    <Fight
+                      boss={this.state.boss}
+                      hero={this.state.hero}
+                      bossAttack={this.bossAttack}
+                      heroAttack={this.heroAttack}
+                      clickDamage={this.clickDamage}
+                      endRound={this.endRound}
+                    />
+
+                  </div>
                 )}
             </div>
           ) : null}

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default class Pickaxe extends Component {
@@ -76,7 +76,7 @@ export default class Pickaxe extends Component {
           >
             {`x${this.state.multiplier}`}
           </Button>{" "}
-          <ToastContainer autoClose={1000} />
+
         </div>
       );
     }

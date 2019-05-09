@@ -1,5 +1,7 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
+import { toast } from "react-toastify";
+
 const Save = props => {
   function saveUserState(user) {
 
@@ -10,16 +12,22 @@ const Save = props => {
         Accept: "application/json"
       },
       body: JSON.stringify({ user })
-    }).then(res => res.json());
+    }).then(() => {
+      const notify = () => toast("Game Saved");
+      notify()
+    })
   }
 
-  return (
+
+  return (<div>
     <Button
       variant="outline-info"
       onClick={() => saveUserState(props.state.user)}
     >
       Save
     </Button>
+
+  </div>
   );
 };
 

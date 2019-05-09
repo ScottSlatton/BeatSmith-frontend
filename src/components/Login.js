@@ -26,24 +26,14 @@ export default class Login extends Component {
         }
       })
     })
-      .then(res => {
-        return res.json();
-      })
+      .then(res => res.json())
       .then(json => {
-        let user = { user: json };
-        if (user.user) {
-          this.props.setUser(user.user);
+        if (json.id) {
+          this.props.setUser(json);
         } else {
-
           this.setState({ error: json.error });
         }
-      });
-    // .then(json => {
-    //   if (this.props.state.user) this.props.setLoggedIn();
-    // });
-    // .catch(error =>
-    //   this.setState({ error: { message: "Invalid Username or Password" } })
-    // );
+      })
   };
 
   handleChange = ev => {
