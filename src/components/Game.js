@@ -308,6 +308,9 @@ export default class Game extends Component {
       //game is playing
       return (
         <div>
+          <div>
+            {!this.state.heroHasArrived ? `Combo: ${this.state.combo}` : null}
+          </div>
           {!this.state.fightStarted && !this.state.heroHasArrived ? (
             <div>
               <Timer heroArrives={this.heroArrives} ore={this.state.ore} />
@@ -327,9 +330,7 @@ export default class Game extends Component {
 
             </div>
           ) : null}
-          <div>
-            {!this.state.heroHasArrived ? `Combo: ${this.state.combo}` : null}
-          </div>
+
           {this.state.heroHasArrived ? (
             <div>
               {!this.state.fightStarted ? (
