@@ -15,7 +15,7 @@ export default class Game extends Component {
       combo: 0,
       ore: 0,
       oreTapped: false,
-      clickStrength: 1,
+      click_strength: 1,
       gameOn: false,
       hero: {
         name: "Stan",
@@ -73,7 +73,7 @@ export default class Game extends Component {
       boss: { ...this.state.boss, defeated: true }
     });
 
-    this.props.updateExperience(this.state.boss.experience);
+    this.props.autoSave(this.state.boss.experience, this.state.ore, this.state.click_strength);
   };
 
   buy = craft => {
@@ -107,7 +107,7 @@ export default class Game extends Component {
       this.setState({
         boss: {
           ...this.state.boss,
-          health: this.state.boss.health - this.state.clickStrength
+          health: this.state.boss.health - this.state.click_strength
         }
       });
     } else {
@@ -125,17 +125,24 @@ export default class Game extends Component {
 
   getNewMonster = () => {
     // this is so fetch
-    this.setState({
-      ...this.state,
-      boss: {
-        health: 100,
-        armor: 0,
-        name: "The Deux",
-        damage: 2,
-        experience: 100,
-        defeated: false
-      }
-    });
+
+    fetch('http://localhost:3000/api/v1/bosses/2')
+      .then(res => res.json())
+      .then(json => this.setState({
+        ...this.state, boss: { json }
+      }))
+
+    // this.setState({
+    //   ...this.state,
+    //   boss: {
+    //     health: 100,
+    //     armor: 0,
+    //     name: "The Deux",
+    //     damage: 2,
+    //     experience: 100,
+    //     defeated: false
+    //   }
+    // });
   };
 
   endRound = () => {
@@ -210,40 +217,39 @@ export default class Game extends Component {
       this.setState({
         ...this.state,
         combo: comboCounter,
-        ore: this.state.ore + ore + this.state.clickStrength * comboCounter,
+        ore: this.state.ore + ore + this.state.click_strength * comboCounter,
         oreTapped: true
       });
     } else {
       this.setState({
         ...this.state,
         combo: 0,
-        ore: this.state.ore + this.state.clickStrength,
+        ore: this.state.ore + this.state.click_strength,
         oreTapped: true
       });
     }
   };
 
-  setBoss = bosses => {
-    bosses.map(boss =>
-      this.setState({
-        ...this.state,
-        boss: {
-          name: boss.name,
-          armor: boss.armor,
-          health: boss.health,
-          experience: boss.experience,
-          damage: boss.damage,
-          defeated: false
-        }
-      })
-    );
+  setBoss = boss => {
+    this.setState({
+      ...this.state,
+      boss: {
+        name: boss.name,
+        armor: boss.armor,
+        health: boss.health,
+        experience: boss.experience,
+        damage: boss.damage,
+        defeated: false
+      }
+    })
+
   };
 
   getBoss = () => {
     //fetch a boss from backend based on user level
-    fetch("http://localhost:3000/api/v1/bosses")
+    fetch("http://localhost:3000/api/v1/bosses/1")
       .then(res => res.json())
-      .then(bosses => this.setBoss(bosses));
+      .then(boss => this.setBoss(boss));
   };
 
   respawnOre = () => {
@@ -283,7 +289,7 @@ export default class Game extends Component {
     this.setState({
       ...this.state,
       ore: this.state.ore - this.state.pickaxeCost * multiplier,
-      clickStrength: this.state.clickStrength + multiplier,
+      click_strength: this.state.click_strength + multiplier,
       pickaxeCost: this.state.pickaxeCost + 10 * multiplier
     });
   };
@@ -294,7 +300,7 @@ export default class Game extends Component {
       return (
         <div>
           <h2>Ore Gathered: {this.state.ore}</h2>
-          <h6> Pickaxe Strength: {this.state.clickStrength} </h6>
+          <h6> Pickaxe Strength: {this.state.click_strength} </h6>
           <div className="play">
             <Button
               size="lg"
@@ -312,7 +318,7 @@ export default class Game extends Component {
             ore={this.state.ore}
             upgradeAxe={this.upgradeAxe}
             state={this.props.state}
-            clickStrength={this.state.clickStrength}
+            click_strength={this.state.click_strength}
             cost={this.state.pickaxeCost}
           />
         </div>
@@ -328,7 +334,7 @@ export default class Game extends Component {
               <h6>
                 {" "}
                 Pickaxe Strength:
-                {this.state.clickStrength}{" "}
+                {this.state.click_strength}{" "}
               </h6>
               {this.state.oreTapped ? null : (
                 <Mine

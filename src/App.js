@@ -19,18 +19,22 @@ export default class App extends React.Component {
   //   this.setState({ ...this.state });
   // };
 
-  updateExperience = bossExperience => {
+  autoSave = (bossExperience, userOre, userClick) => {
+    debugger
     let updatedExperience = this.state.user.experience + bossExperience;
+    let updatedClickStrength = this.state.user.click_strength + userClick
     this.setState({
       user: {
         ...this.state.user,
-        experience: updatedExperience
+        experience: updatedExperience,
+        ore: userOre,
+        click_strength: updatedClickStrength
       }
     });
-    this.sendExperience(updatedExperience);
+    this.sendAutoSave(updatedExperience, userOre, updatedClickStrength);
   };
 
-  sendExperience = userExp => {
+  sendAutoSave = (userExp, userOre, userClick) => {
     let token = localStorage.getItem("token");
     fetch(`http://localhost:3000/api/v1/users/${this.state.user.id}`, {
       method: "PATCH",
@@ -41,7 +45,9 @@ export default class App extends React.Component {
       },
       body: JSON.stringify({
         user: {
-          experience: userExp
+          experience: userExp,
+          ore: userOre,
+          click_strength: userClick
         }
       })
     })
@@ -87,7 +93,7 @@ export default class App extends React.Component {
                 {...props}
                 state={this.state}
                 setUser={this.setUser}
-                updateExperience={this.updateExperience}
+                autoSave={this.autoSave}
               />
             )}
           />

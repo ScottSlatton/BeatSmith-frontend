@@ -13,7 +13,7 @@ const Home = props => {
         label={`Experience:${experience} `}
       />
       <div className="App-header">
-        <Game state={props.state} updateExperience={props.updateExperience} />
+        <Game state={props.state} autoSave={props.autoSave} />
       </div>
     </div>
   );

@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 export default class Pickaxe extends Component {
   constructor(props) {
     super(props);
-    // this.paraCost = this.props.clickStrength;
     this.state = {
       multiplier: 1
     };
@@ -52,7 +51,7 @@ export default class Pickaxe extends Component {
             Upgrade Pickaxe
           </Button>
           <Button variant="outline-warning" disabled>
-            Cost {this.props.clickStrength * 10 * this.state.multiplier}
+            Cost {this.props.click_strength * 10 * this.state.multiplier}
           </Button>
           <Button
             variant="outline-primary"
@@ -69,7 +68,7 @@ export default class Pickaxe extends Component {
             Upgrade Pickaxe
           </Button>
           <Button variant="outline-warning" disabled>
-            Cost {this.props.clickStrength * 10 * this.state.multiplier}
+            Cost {this.props.click_strength * 10 * this.state.multiplier}
           </Button>
           <Button
             variant="outline-warning"
