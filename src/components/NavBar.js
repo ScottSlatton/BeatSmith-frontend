@@ -42,6 +42,9 @@ export default class NavBar extends Component {
                 <NavDropdown.Item href="/signup">Signup</NavDropdown.Item>
               ) : null}
             </NavDropdown>
+            <Navbar.Text>
+              Level: {`${this.props.state.user.level}`}
+            </Navbar.Text>
             <Nav.Link href="/rules">How To Play</Nav.Link>
           </Nav>
           {/* <Form inline>
