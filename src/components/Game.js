@@ -126,7 +126,7 @@ export default class Game extends Component {
   getNewMonster = () => {
     // this is so fetch
 
-    fetch('http://localhost:3000/api/v1/bosses/2')
+    fetch(`https://beatsmith-api.herokuapp.com/api/v1/levels/${this.props.state.user.level}`)
       .then(res => res.json())
       .then(json => this.setState({
         ...this.state, boss: { json }
@@ -230,26 +230,27 @@ export default class Game extends Component {
     }
   };
 
-  setBoss = boss => {
+  setBoss = level => {
+
+    let randBoss = level.bosses[Math.floor(Math.random() * level.bosses.length)];
+
+
+
     this.setState({
       ...this.state,
-      boss: {
-        name: boss.name,
-        armor: boss.armor,
-        health: boss.health,
-        experience: boss.experience,
-        damage: boss.damage,
-        defeated: false
-      }
+      boss: randBoss
     })
 
   };
 
   getBoss = () => {
     //fetch a boss from backend based on user level
-    fetch("http://localhost:3000/api/v1/bosses/1")
+    fetch(`https://beatsmith-api.herokuapp.com/api/v1/levels/${this.props.state.user.level}`)
       .then(res => res.json())
-      .then(boss => this.setBoss(boss));
+      .then(level => {
+
+        this.setBoss(level)
+      });
   };
 
   respawnOre = () => {
