@@ -11,7 +11,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 export default class NavBar extends Component {
   render() {
     const { isLoggedIn } = this.props.state;
-    const { level } = this.props.state.user;
+    const level = this.props.state.user.level;
     return (
       <Navbar bg="dark" variant="dark" expand="lg">
         <LinkContainer to="/">

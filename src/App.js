@@ -9,7 +9,7 @@ import SignUp from "./components/SignUp";
 export default class App extends React.Component {
   constructor() {
     super();
-    this.state = { isLoggedIn: false, user: { experience: 0, level: 1 } };
+    this.state = { isLoggedIn: false, user: { experience: 0, level: 1, click_strength: 1 } };
   }
   setUser = user => {
     this.setState({ ...this.state, user: user, isLoggedIn: true });
@@ -20,10 +20,12 @@ export default class App extends React.Component {
   // };
 
   autoSave = (bossExperience, userOre, userClick) => {
+    let updatedLevel = this.state.user.level
     let updatedExperience = this.state.user.experience + bossExperience;
     if (updatedExperience >= 100) {
       this.levelUp()
       updatedExperience = 0
+      updatedLevel = this.state.user.level + 1
     }
     let updatedClickStrength = this.state.user.click_strength + userClick
     this.setState({
@@ -35,19 +37,18 @@ export default class App extends React.Component {
         click_strength: updatedClickStrength
       }
     });
-    this.sendAutoSave(updatedExperience, userOre, updatedClickStrength);
+    this.sendAutoSave(updatedExperience, userOre, updatedClickStrength, updatedLevel);
   };
 
   levelUp = () => {
-    this.setState({ ...this.state, user: { ...this.state.user, level: this.state.user + 1, experience: 0 } })
+    this.setState({ ...this.state, user: { ...this.state.user, level: this.state.user.level + 1, experience: 0 } })
   }
 
-  sendAutoSave = (userExp, userOre, userClick) => {
-    let token = localStorage.getItem("token");
+  sendAutoSave = (userExp, userOre, userClick, userLevel) => {
+    debugger
     fetch(`https://beatsmith-api.herokuapp.com/api/v1/users/${this.state.user.id}`, {
       method: "PATCH",
       headers: {
-        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
         Accept: "application/json"
       },
@@ -55,7 +56,8 @@ export default class App extends React.Component {
         user: {
           experience: userExp,
           ore: userOre,
-          click_strength: userClick
+          click_strength: userClick,
+          level: userLevel
         }
       })
     })

@@ -160,7 +160,7 @@ export default class Game extends Component {
   };
 
   heroAttack = () => {
-    if (this.state.boss.health >= 0) {
+    if (this.state.boss.health > 0) {
 
       let armorCheck = this.state.hero.damage - this.state.boss.armor;
       if (armorCheck <= 0) {
@@ -175,7 +175,7 @@ export default class Game extends Component {
       });
     } else {
 
-      this.bossDefeated();
+      this.endRound();
     }
   };
 

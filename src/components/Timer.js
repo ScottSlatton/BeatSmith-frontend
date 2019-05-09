@@ -21,7 +21,6 @@ export default class Timer extends Component {
         clock: this.state.clock - 1
       });
     } else {
-      localStorage.setItem("ore", this.props.ore);
       this.props.heroArrives();
     }
   }
