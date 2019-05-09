@@ -27,17 +27,16 @@ export default class App extends React.Component {
       updatedExperience = 0
       updatedLevel = this.state.user.level + 1
     }
-    let updatedClickStrength = this.state.user.click_strength + userClick
     this.setState({
       ...this.state,
       user: {
         ...this.state.user,
         experience: updatedExperience,
         ore: userOre,
-        click_strength: updatedClickStrength
+        click_strength: userClick
       }
     });
-    this.sendAutoSave(updatedExperience, userOre, updatedClickStrength, updatedLevel);
+    this.sendAutoSave(updatedExperience, userOre, userClick, updatedLevel);
   };
 
   levelUp = () => {
