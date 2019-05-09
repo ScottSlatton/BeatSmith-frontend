@@ -11,6 +11,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 export default class NavBar extends Component {
   render() {
     const { isLoggedIn } = this.props.state;
+    const { level } = this.props.state.user;
     return (
       <Navbar bg="dark" variant="dark" expand="lg">
         <LinkContainer to="/">
@@ -35,13 +36,16 @@ export default class NavBar extends Component {
                   Logout
                 </NavDropdown.Item>
               ) : (
-                <NavDropdown.Item href="/login">Login</NavDropdown.Item>
-              )}
+                  <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+                )}
               <NavDropdown.Divider />
               {!isLoggedIn ? (
                 <NavDropdown.Item href="/signup">Signup</NavDropdown.Item>
               ) : null}
             </NavDropdown>
+            <Navbar.Text>
+              Level: {`${level}`}
+            </Navbar.Text>
           </Nav>
           {/* <Form inline>
             <FormControl type="text" placeholder="Search" className="mr-sm-2" />
