@@ -20,7 +20,6 @@ export default class App extends React.Component {
   // };
 
   autoSave = (bossExperience, userOre, userClick) => {
-    debugger
     let updatedExperience = this.state.user.experience + bossExperience;
     let updatedClickStrength = this.state.user.click_strength + userClick
     this.setState({
