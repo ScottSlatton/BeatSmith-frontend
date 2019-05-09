@@ -45,7 +45,6 @@ export default class App extends React.Component {
   }
 
   sendAutoSave = (userExp, userOre, userClick, userLevel) => {
-    debugger
     fetch(`https://beatsmith-api.herokuapp.com/api/v1/users/${this.state.user.id}`, {
       method: "PATCH",
       headers: {
