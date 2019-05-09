@@ -1,6 +1,7 @@
 import React from "react";
 import Login from "./components/Login";
 import Home from "./components/Home";
+import Rules from "./components/Rules";
 import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
@@ -110,6 +111,12 @@ export default class App extends React.Component {
                   setUser={this.setUser}
                   autoSave={this.autoSave}
                 />
+              )}
+            />
+            <Route
+              path="/rules"
+              render={props => (
+                <Rules />
               )}
             />
           </React.Fragment>

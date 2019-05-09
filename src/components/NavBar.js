@@ -11,7 +11,6 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 export default class NavBar extends Component {
   render() {
     const { isLoggedIn } = this.props.state;
-    const level = this.props.state.user.level;
     return (
       <Navbar bg="dark" variant="dark" expand="lg">
         <LinkContainer to="/">
@@ -43,9 +42,7 @@ export default class NavBar extends Component {
                 <NavDropdown.Item href="/signup">Signup</NavDropdown.Item>
               ) : null}
             </NavDropdown>
-            <Navbar.Text>
-              Level: {`${level}`}
-            </Navbar.Text>
+            <Nav.Link href="/rules">How To Play</Nav.Link>
           </Nav>
           {/* <Form inline>
             <FormControl type="text" placeholder="Search" className="mr-sm-2" />
