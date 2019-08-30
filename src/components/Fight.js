@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Boss from "./Boss";
+import Monster from "./Monster";
 import Hero from "./Hero";
 
 export default class Fight extends Component {
@@ -11,10 +11,10 @@ export default class Fight extends Component {
     this.timerID = setInterval(() => this.tick(), 500);
   }
   tick() {
-    if (this.props.hero.health > 0 && this.props.boss.health > 0) {
+    if (this.props.hero.health > 0 && this.props.monster.health > 0) {
       //every tick, do something
       this.props.heroAttack();
-      this.props.bossAttack();
+      this.props.monsterAttack();
     } else {
       //end fight
       this.props.endRound();
@@ -29,11 +29,11 @@ export default class Fight extends Component {
         {" "}
         <Hero
           damage={this.damage}
-          boss={this.props.boss}
+          monster={this.props.monster}
           hero={this.props.hero}
         />
-        <Boss
-          boss={this.props.boss}
+        <Monster
+          monster={this.props.monster}
           hero={this.props.hero}
           clickDamage={this.props.clickDamage}
         />

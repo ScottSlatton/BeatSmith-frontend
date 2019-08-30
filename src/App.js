@@ -21,9 +21,9 @@ export default class App extends React.Component {
   //   this.setState({ ...this.state });
   // };
 
-  autoSave = (bossExperience, userOre, userClick) => {
+  autoSave = (monsterExperience, userOre, userClick) => {
     let updatedLevel = this.state.user.level
-    let updatedExperience = this.state.user.experience + bossExperience;
+    let updatedExperience = this.state.user.experience + monsterExperience;
     if (updatedExperience >= 100) {
       this.levelUp()
       updatedExperience = 0

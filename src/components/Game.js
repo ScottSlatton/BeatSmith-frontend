@@ -48,9 +48,9 @@ export default class Game extends Component {
     };
   }
 
-  bossAttack = () => {
+  monsterAttack = () => {
     if (this.state.hero.health >= 0) {
-      let armorCheck = this.state.boss.damage - this.state.hero.armor;
+      let armorCheck = this.state.monster.damage - this.state.hero.armor;
       if (armorCheck <= 0) {
         return;
       }
@@ -67,14 +67,14 @@ export default class Game extends Component {
     }
   };
 
-  bossDefeated = () => {
+  monsterDefeated = () => {
 
     this.setState({
       ...this.state,
-      boss: { ...this.state.boss, defeated: true }
+      monster: { ...this.state.monster, defeated: true }
     });
 
-    this.props.autoSave(this.state.boss.experience, this.state.ore, this.state.click_strength);
+    this.props.autoSave(this.state.monster.experience, this.state.ore, this.state.click_strength);
   };
 
   buy = craft => {
@@ -105,35 +105,35 @@ export default class Game extends Component {
   };
 
   clickDamage = ev => {
-    if (this.state.boss.health > 0) {
+    if (this.state.monster.health > 0) {
 
       this.setState({
-        boss: {
-          ...this.state.boss,
-          health: this.state.boss.health - this.state.click_strength
+        monster: {
+          ...this.state.monster,
+          health: this.state.monster.health - this.state.click_strength
         }
       });
     } else {
 
-      ev.target.className = "boss-defeated";
-      this.bossDefeated();
+      ev.target.className = "monster-defeated";
+      this.monsterDefeated();
     }
   };
 
   componentDidMount() {
-    if (!this.state.boss) {
-      this.getBoss();
+    if (!this.state.monster) {
+      this.getMonster();
     }
   }
 
   endRound = () => {
-    // player mines, timer runs out, hero comes in, player arms hero, hero damages boss, boss kills player
+    // player mines, timer runs out, hero comes in, player arms hero, hero damages monster, monster kills player
     // ba-da-bing, ba-da-boom
-    if (this.state.boss.health <= 0) {
+    if (this.state.monster.health <= 0) {
 
-      this.bossDefeated();
+      this.monsterDefeated();
       //fetch a new monster
-      this.getBoss();
+      this.getmonster();
     } else if (this.state.hero.health <= 0) {
 
       this.heroDefeated();
@@ -163,17 +163,17 @@ export default class Game extends Component {
   };
 
   heroAttack = () => {
-    if (this.state.boss.health > 0) {
+    if (this.state.monster.health > 0) {
 
-      let armorCheck = this.state.hero.damage - this.state.boss.armor;
+      let armorCheck = this.state.hero.damage - this.state.monster.armor;
       if (armorCheck <= 0) {
         return;
       }
       this.setState({
         ...this.state,
-        boss: {
-          ...this.state.boss,
-          health: this.state.boss.health - armorCheck
+        monster: {
+          ...this.state.monster,
+          health: this.state.monster.health - armorCheck
         }
       });
     } else {
@@ -211,23 +211,23 @@ export default class Game extends Component {
     }
   };
 
-  setBoss = level => {
-    let randBoss = level.bosses[Math.floor(Math.random() * level.bosses.length)];
+  setMonster = level => {
+    let randMonster = level.monsters[Math.floor(Math.random() * level.monsters.length)];
     this.setState({
       ...this.state,
-      boss: randBoss
+      monster: randMonster
     })
 
   };
 
-  getBoss = () => {
-    //fetch a boss from backend based on user level
+  getMonster = () => {
+    //fetch a monster from backend based on user level
     fetch(`https://beatsmith-api.herokuapp.com/api/v1/levels/${this.props.state.user.level}`)
       .then(res => res.json())
       .then(level => {
-        this.setBoss(level)
+        this.setMonster(level)
         this.setState({
-          ...this.state, boss: { ...this.state.boss, defeated: false }
+          ...this.state, monster: { ...this.state.monster, defeated: false }
         })
       });
   };
@@ -253,7 +253,7 @@ export default class Game extends Component {
   };
 
   startFight = () => {
-    if (this.state.boss || this.state.boss.defeated === false) {
+    if (this.state.monster || this.state.monster.defeated === false) {
       this.setState({
         ...this.state,
         fightStarted: true,
@@ -348,9 +348,9 @@ export default class Game extends Component {
               ) : (
                   <div>
                     <Fight
-                      boss={this.state.boss}
+                      monster={this.state.monster}
                       hero={this.state.hero}
-                      bossAttack={this.bossAttack}
+                      monsterAttack={this.monsterAttack}
                       heroAttack={this.heroAttack}
                       clickDamage={this.clickDamage}
                       endRound={this.endRound}
