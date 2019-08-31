@@ -45,7 +45,7 @@ export default class SignUp extends Component {
     } else {
       return (
         <div className="App-header">
-          <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={this.handleSubmit} id="signup">
             <Form.Group controlId="formUsername">
               <Form.Label>Username</Form.Label>
               <Form.Control

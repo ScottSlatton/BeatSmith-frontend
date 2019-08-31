@@ -6,25 +6,16 @@ import Mine from "./Mine";
 import Save from "./Save";
 import Button from "react-bootstrap/Button";
 import CraftContainer from "./CraftContainer";
+import Resources from "./Resources"
 import { toast } from "react-toastify";
 
 export default class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      click_strength: 1,
       clock: 30,
       combo: 0,
-      ore: 0,
-      oreTapped: false,
-      click_strength: 1,
-      gameOn: false,
-      hero: {
-        name: "Stan",
-        health: 100,
-        armor: 0,
-        damage: 1,
-        defeated: false
-      },
       crafts: [
         {
           name: "Shield Upgrade",
@@ -41,9 +32,19 @@ export default class Game extends Component {
           level: 1
         }
       ],
-
-      heroHasArrived: false,
       fightStarted: false,
+      gameOn: false,
+      gold: 0,
+      hero: {
+        name: "Stan",
+        health: 100,
+        armor: 0,
+        damage: 1,
+        defeated: false
+      },
+      heroHasArrived: false,
+      ore: 0,
+      oreTapped: false,
       pickaxeCost: 10
     };
   }
@@ -68,7 +69,6 @@ export default class Game extends Component {
   };
 
   monsterDefeated = () => {
-
     this.setState({
       ...this.state,
       monster: { ...this.state.monster, defeated: true }
@@ -221,8 +221,10 @@ export default class Game extends Component {
   };
 
   getMonster = () => {
+
+    //TODO: add if conditional for production backend vs development
     //fetch a monster from backend based on user level
-    fetch(`https://beatsmith-api.herokuapp.com/api/v1/levels/${this.props.state.user.level}`)
+    fetch(`https://localhost:3000/api/v1/levels/${this.props.state.user.level}`)
       .then(res => res.json())
       .then(level => {
         this.setMonster(level)
@@ -275,6 +277,7 @@ export default class Game extends Component {
   };
 
   render() {
+
     if (!this.state.gameOn) {
       //game is not playing
       return (

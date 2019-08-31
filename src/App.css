@@ -59,3 +59,12 @@
   padding-top: 30px;
   text-align: center;
 }
+
+#signup {
+  width: 100px;
+  height: 100px;
+  background: gray;
+  border: 2px solid black;
+  /* border-radius: 50%; */
+
+}
